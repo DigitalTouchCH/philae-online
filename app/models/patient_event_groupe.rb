@@ -1,0 +1,2 @@
+class PatientEventGroupe < ApplicationRecord
+end

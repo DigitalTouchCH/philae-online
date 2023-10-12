@@ -1,0 +1,2 @@
+class VideoPatient < ApplicationRecord
+end
