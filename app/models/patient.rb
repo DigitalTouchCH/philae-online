@@ -6,7 +6,7 @@ class Patient < ApplicationRecord
   has_many :video_patients
   has_many :videos, through: :video_patients
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true

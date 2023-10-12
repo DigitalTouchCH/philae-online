@@ -1,11 +1,30 @@
 # db/seeds.rb
 
-# Clear existing data to avoid conflicts (this line is optional and depends on your needs)
-User.destroy_all
-Therapist.destroy_all
+puts "Purging database..."
+
+VideoPatient.destroy_all
+EventPersonel.destroy_all
+EventIndividuel.destroy_all
+EventGroupe.destroy_all
+PatientEventGroupe.destroy_all
+Ordonnance.destroy_all
+TherapistService.destroy_all
+Service.destroy_all
+Video.destroy_all
+Room.destroy_all
+TimeBlock.destroy_all
 Location.destroy_all
+Therapist.destroy_all
+Patient.destroy_all
+User.destroy_all
+Firm.destroy_all
+
+puts "Database purged."
 
 # ADMIN
+
+puts "Creating admin users..."
+
 user1 = User.create!(
   email: 'thomas.murat974@gmail.com',
   password: 'Lise974*-+',
@@ -18,8 +37,22 @@ user2 = User.create!(
   password_confirmation: 'Lise974*-+',
 )
 
+puts "Admin users created."
+
+# FIRMS
+
+puts "Creating firms..."
+solen_duclos_ri = Firm.create!(
+  name: "Solen Duclos RI"
+)
+
+anne_laure_croquet_ri = Firm.create!(
+  name: "Anne-Laure Croquet RI"
+)
+puts "Firms created."
 
 # THERAPEUTES
+puts "Creating therapists..."
 user3 = User.create!(
   email: 'solen@centre-philae.ch',
   password: 'password123',
@@ -29,7 +62,8 @@ therapist3 = Therapist.create!(
   user: user3,
   first_name: 'Solen',
   last_name: 'Duclos',
-  is_manager: true
+  is_manager: true,
+  firm: solen_duclos_ri
 )
 user4 = User.create!(
   email: 'amelie@centre-philae.ch',
@@ -40,7 +74,8 @@ therapist4 = Therapist.create!(
   user: user4,
   first_name: 'Amelie',
   last_name: 'Teil',
-  is_manager: false
+  is_manager: false,
+  firm: solen_duclos_ri
 )
 user5 = User.create!(
   email: 'alexandre@centre-philae.ch',
@@ -51,19 +86,33 @@ therapist5 = Therapist.create!(
   user: user5,
   first_name: 'Alexandre',
   last_name: 'Dessert',
-  is_manager: false
+  is_manager: false,
+  firm: solen_duclos_ri
 )
+
+user6 = User.create!(
+  email: 'anne-laure@centre-philae.ch',
+  password: 'password123',
+  password_confirmation: 'password123'
+)
+therapist6 = Therapist.create!(
+  user: user6,
+  first_name: 'Anne-Laure',
+  last_name: 'Croquet',
+  is_manager: true,
+  firm: anne_laure_croquet_ri
+)
+puts "Therapists created."
 
 
 # LOCATIONS & ROOMS
-
+puts "Creating locations and room..."
 riponne = Location.create!(
   name: "Riponne",
   address: "Rue Saint-Laurent 19, 1003, Lausanne",
   acces_detail: "2e étage sonner à Espace 19"
 )
 
-# Ajout d'une salle pour Riponne
 Room.create!(
   name: "Salle 1 à Riponne",
   location: riponne
@@ -75,10 +124,11 @@ joliette = Location.create!(
   acces_detail: "1er étage"
 )
 
-# Ajout de 5 salles pour Joliette
 5.times do |i|
   Room.create!(
     name: "Salle #{i + 1} à Joliette",
     location: joliette
   )
 end
+
+puts "Firme and rooms created."
