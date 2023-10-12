@@ -1,5 +1,5 @@
 class Therapist < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   belongs_to :firm
 
   has_many :event_groupes
