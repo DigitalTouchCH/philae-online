@@ -1,0 +1,2 @@
+class Ordonnance < ApplicationRecord
+end

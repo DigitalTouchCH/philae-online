@@ -1,0 +1,2 @@
+class WeekAvailability < ApplicationRecord
+end
