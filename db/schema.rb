@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_12_140346) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_12_150058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_140346) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "therapist_id", null: false
+    t.bigint "service_id", null: false
+    t.index ["service_id"], name: "index_event_groupes_on_service_id"
     t.index ["therapist_id"], name: "index_event_groupes_on_therapist_id"
   end
 
@@ -64,6 +66,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_140346) do
   create_table "locations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "address"
+    t.text "acces_detail"
   end
 
   create_table "ordonnances", force: :cascade do |t|
@@ -172,6 +177,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_140346) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -207,6 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_140346) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "event_groupes", "services"
   add_foreign_key "event_groupes", "therapists"
   add_foreign_key "event_individuels", "ordonnances"
   add_foreign_key "event_individuels", "patients"
