@@ -1,1 +1,5 @@
-<div data-controller="fullcalendar" data-fullcalendar-target="calendar"></div>
+<div class="container">
+  <div data-controller="fullcalendar" data-fullcalendar-target="calendar" data-events-url="<%= all_events_therapist_path(@therapist) %>"></div>
+</div>
+
+<p><%= all_events_therapist_path(@therapist) %></p>
