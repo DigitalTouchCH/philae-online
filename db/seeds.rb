@@ -142,17 +142,18 @@ puts "Firme and rooms created."
 puts "Creating personal events for therapists..."
 
 therapists = Therapist.all
-start_time = Time.now + 1.day # Start from tomorrow
+start_time = Time.now.beginning_of_day + 11.hours # Start at 11:00 tomorrow
+end_time = Time.now.beginning_of_day + 13.hours   # End at 13:00 tomorrow
+
 puts "Start time: #{start_time}"
-puts "Start time: #{start_time + 1.day}"
-puts "Start time: #{start_time + 1.days + 2.hours}"
+puts "End time: #{end_time}"
 
 therapists.each do |therapist|
   5.times do |i| # Creating 5 events for each therapist
     EventPersonel.create!(
       therapist: therapist,
       start_date_time: start_time + i.days,
-      end_date_time: start_time + i.days + 2.hours,
+      end_date_time: end_time + i.days,
       reason: "Event #{i+1}",
       is_paid_holiday: false
     )
