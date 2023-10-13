@@ -19,17 +19,33 @@ export default class extends Controller {
 
     const calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin, timeGridPlugin, bootstrapPlugin],
-      themeSystem: "bootstrap",
+      themeSystem: "bootstrap5",
       initialView: "dayGridMonth",
+
       headerToolbar: {
         left: "prev,next today",
         center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
+        right: "dayGridMonth,timeGridWeek"
       },
+
       events: eventsUrl,
-      eventBackgroundColor: "#007BFF",
-      eventBorderColor: "#007BFF",
-      eventTextColor: "#FFFFFF",
+
+      slotDuration: '00:15:00',
+      slotMinTime: '06:00:00',
+      slotMaxTime: '20:00:00',
+      nowIndicator: true,
+      navLinks: true,
+      navLinkDayClick: 'timeGridWeek'
+
+      // eventDidMount: function(info) {
+      //   new Tooltip(info.el, {
+      //     title: info.event.extendedProps.reason, // Accédez à la propriété 'reason' ici
+      //     placement: 'top',
+      //     trigger: 'hover',
+      //     container: 'body'
+      //   });
+      // }
+
     });
 
     calendar.render();

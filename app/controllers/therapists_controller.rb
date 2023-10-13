@@ -11,7 +11,8 @@ class TherapistsController < ApplicationController
       {
         title: 'Personal Event',
         start: event.start_date_time.iso8601,
-        end: event.end_date_time.iso8601
+        end: event.end_date_time.iso8601,
+        reason: event.reason
         # Autres propriétés d'événement personnalisées (ne pas utiliser les commentaires JavaScript ici)
       }
     end
