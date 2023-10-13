@@ -135,3 +135,25 @@ joliette = Location.create!(
 end
 
 puts "Firme and rooms created."
+
+
+# EVENTS
+
+puts "Creating personal events for therapists..."
+
+therapists = Therapist.all
+start_time = Time.now + 1.day # Start from tomorrow
+
+therapists.each do |therapist|
+  5.times do |i| # Creating 5 events for each therapist
+    EventPersonel.create!(
+      therapist: therapist,
+      start_date_time: start_time + i.days,
+      end_date_time: start_time + i.days + 2.hours,
+      reason: "Event #{i+1}",
+      is_paid_holiday: false
+    )
+  end
+end
+
+puts "Personal events created."

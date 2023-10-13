@@ -5,6 +5,11 @@ Rails.application.routes.draw do
 
   resources :firms, only: [:index]
   resources :users, only: [:index]
+  resources :therapists, only: [:show] do
+    get 'events', on: :member, defaults: { format: :json }
+  end
+
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

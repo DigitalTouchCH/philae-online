@@ -1,6 +1,9 @@
+// app/javascript/controllers/fullcalendar_controller.js
 import { Controller } from "stimulus";
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import { Calendar } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 
 export default class extends Controller {
   static targets = ["calendar"];
@@ -12,13 +15,12 @@ export default class extends Controller {
   initializeCalendar() {
     const calendarEl = this.calendarTarget;
 
-    this.calendar = new Calendar(calendarEl, {
-      plugins: [dayGridPlugin],
-      initialView: 'dayGridMonth',
-      events: '/events.json'
-      // Ajoutez ici d'autres options si nécessaire
+    const calendar = new Calendar(calendarEl, {
+      plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+      initialView: "dayGridMonth", // Replace with your desired view
+      // Add more configuration options as needed
     });
 
-    this.calendar.render();
+    calendar.render();
   }
 }

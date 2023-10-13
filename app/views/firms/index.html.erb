@@ -10,7 +10,9 @@
             <ul class="list-unstyled">
                 <% firm.therapists.each do |therapist| %>
                     <li class="mb-2">
-                        <strong><%= therapist.first_name %> <%= therapist.last_name %></strong>
+                        <strong>
+                            <%= link_to "#{therapist.first_name} #{therapist.last_name}", therapist_path(therapist) %>
+                        </strong>
                         <p class="mb-0">
                             <span class="badge <%= therapist.is_manager ? 'bg-success' : 'bg-info' %>">
                                 <%= therapist.is_manager ? 'Manager' : 'Therapist' %>
@@ -21,5 +23,4 @@
             </ul>
         </div>
     <% end %>
-
 </div>
