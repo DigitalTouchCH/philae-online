@@ -9,6 +9,10 @@ class TherapistPolicy < ApplicationPolicy
     show?
   end
 
+  def all_events?
+    true
+  end
+
   class Scope < Scope
     def resolve
       if user.is_admin?

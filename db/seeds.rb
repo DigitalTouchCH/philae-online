@@ -143,6 +143,9 @@ puts "Creating personal events for therapists..."
 
 therapists = Therapist.all
 start_time = Time.now + 1.day # Start from tomorrow
+puts "Start time: #{start_time}"
+puts "Start time: #{start_time + 1.day}"
+puts "Start time: #{start_time + 1.days + 2.hours}"
 
 therapists.each do |therapist|
   5.times do |i| # Creating 5 events for each therapist

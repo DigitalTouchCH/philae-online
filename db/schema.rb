@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_101533) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_205120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,12 +47,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_101533) do
 
   create_table "event_personels", force: :cascade do |t|
     t.boolean "is_paid_holiday"
-    t.time "start_date_time"
-    t.time "end_date_time"
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "therapist_id", null: false
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
     t.index ["therapist_id"], name: "index_event_personels_on_therapist_id"
   end
 
