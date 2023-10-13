@@ -1,11 +1,11 @@
-class FirmPolicy < ApplicationPolicy
+class UserPolicy < ApplicationPolicy
   def index?
-    user.is_admin? || user.therapist?
+    user.is_admin?
   end
 
   class Scope < Scope
     def resolve
-      if user.is_admin? || user.therapist?
+      if user.is_admin?
         scope.all
       else
         scope.none

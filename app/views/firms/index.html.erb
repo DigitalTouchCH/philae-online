@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Firms</h1>
+
+    <% @firms.each do |firm| %>
+        <div class="mb-1">
+            <h2><%= firm.name %></h2>
+            <p><%= firm.address %></p>
+
+            <h3>Therapists:</h3>
+            <ul class="list-unstyled">
+                <% firm.therapists.each do |therapist| %>
+                    <li class="mb-2">
+                        <strong><%= therapist.first_name %> <%= therapist.last_name %></strong>
+                        <p class="mb-0">
+                            <span class="badge <%= therapist.is_manager ? 'bg-success' : 'bg-info' %>">
+                                <%= therapist.is_manager ? 'Manager' : 'Therapist' %>
+                            </span>
+                        </p>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+</div>

@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :therapist
-  has_one :patients
+  has_one :patient
+
 end

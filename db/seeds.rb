@@ -35,6 +35,7 @@ user2 = User.create!(
   email: 'duclos.solen@gmail.com',
   password: 'Lise974*-+',
   password_confirmation: 'Lise974*-+',
+  is_admin: true
 )
 
 puts "Admin users created."
@@ -43,11 +44,13 @@ puts "Admin users created."
 
 puts "Creating firms..."
 solen_duclos_ri = Firm.create!(
-  name: "Solen Duclos RI"
+  name: "Solen Duclos RI",
+  address: "Rue Saint-Laurent 19, 1003, Lausanne"
 )
 
 anne_laure_croquet_ri = Firm.create!(
-  name: "Anne-Laure Croquet RI"
+  name: "Anne-Laure Croquet RI",
+  address: "inconnue"
 )
 puts "Firms created."
 
