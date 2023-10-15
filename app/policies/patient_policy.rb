@@ -1,0 +1,15 @@
+class PatientPolicy < ApplicationPolicy
+  def index?
+    user&.is_admin? || user&.therapist?
+  end
+
+  class Scope < Scope
+    def resolve
+      if user&.is_admin? || user&.therapist?
+        scope.all
+      else
+        scope.none
+      end
+    end
+  end
+end

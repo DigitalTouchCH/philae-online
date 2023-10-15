@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
 
   resources :firms, only: [:index]
+  resources :patients, only: [:index]
   resources :users, only: [:index]
   resources :therapists, only: [:show] do
     get 'all_events', on: :member, defaults: { format: :json }

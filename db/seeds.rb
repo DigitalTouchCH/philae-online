@@ -1,4 +1,6 @@
 # db/seeds.rb
+require 'roo'
+require 'faker'
 
 puts "Purging database..."
 
@@ -136,7 +138,6 @@ end
 
 puts "Firme and rooms created."
 
-
 # EVENTS
 
 puts "Creating personal events for therapists..."
@@ -161,3 +162,36 @@ therapists.each do |therapist|
 end
 
 puts "Personal events created."
+
+
+# PATIENTS
+puts "Importing patients..."
+
+# Load Excel file
+xlsx = Roo::Spreadsheet.open('./db/data/Listes RDV.xlsx')
+# Select the first sheet
+sheet = xlsx.sheet(3)
+
+# Itérez sur chaque ligne de la feuille de calcul
+full_names = []
+sheet.each_row_streaming(offset: 1) do |row|
+  full_names << row[0].value
+end
+
+filtered_names = full_names.reject { |name| name.start_with?("_") }.map do |full_name|
+  # Séparation du nom complet en mots et répartition en nom et prénom
+  *last_name_parts, first_name = full_name.split
+  last_name = last_name_parts.join(' ')
+  [first_name, last_name]
+end
+
+filtered_names.each do |first_name, last_name|
+  Patient.create!(
+    first_name: first_name,
+    last_name: last_name,
+    date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 80)
+    # ... any other patient data you want to import
+  )
+end
+
+puts "Patients imported."
