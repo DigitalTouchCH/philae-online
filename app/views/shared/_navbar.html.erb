@@ -12,11 +12,26 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
+            <%= link_to "Home", "/", class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
+          <% if current_user.is_admin? %>
+            <li class="nav-item">
+              <%= link_to "Users", users_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Teams", firms_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Patients", patients_path, class: "nav-link" %>
+            </li>
+          <% elsif Therapist.exists?(user_id: current_user.id) %>
+            <li class="nav-item">
+              <%= link_to "Teams", firms_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Patients", patients_path, class: "nav-link" %>
+            </li>
+          <% end %>
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
