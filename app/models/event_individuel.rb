@@ -1,7 +1,7 @@
 class EventIndividuel < ApplicationRecord
   belongs_to :therapist
   belongs_to :patient
-  belongs_to :ordonnance
+  belongs_to :ordonnance, optional: true
   belongs_to :service
 
   validates :therapist_id, presence: true

@@ -13,6 +13,10 @@ class TherapistPolicy < ApplicationPolicy
     true
   end
 
+  def update_event?
+    show?
+  end
+
   class Scope < Scope
     def resolve
       if user.is_admin?

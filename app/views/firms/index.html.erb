@@ -2,22 +2,32 @@
     <h1 class="mb-4">Firms</h1>
 
     <% @firms.each do |firm| %>
-        <div class="mb-1">
+        <div class="mb-4">
             <h2><%= firm.name %></h2>
             <p><%= firm.address %></p>
 
             <h3>Therapists:</h3>
             <ul class="list-unstyled">
                 <% firm.therapists.each do |therapist| %>
-                    <li class="mb-2">
+                    <li class="mb-3">
                         <strong>
                             <%= link_to "#{therapist.first_name} #{therapist.last_name}", therapist_path(therapist) %>
                         </strong>
+                        <p>
+                            "id : <%= therapist.id %>"
+                        </p>
                         <p class="mb-0">
                             <span class="badge <%= therapist.is_manager ? 'bg-success' : 'bg-info' %>">
                                 <%= therapist.is_manager ? 'Manager' : 'Therapist' %>
                             </span>
                         </p>
+                        <!-- Add a list of services for each therapist -->
+                        <p>Services:</p>
+                        <ul>
+                            <% therapist.services.each do |service| %>
+                                <li><%= service.name %></li>
+                            <% end %>
+                        </ul>
                     </li>
                 <% end %>
             </ul>

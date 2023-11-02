@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_15_142532) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_02_210252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_142532) do
     t.datetime "updated_at", null: false
     t.bigint "therapist_id", null: false
     t.bigint "service_id", null: false
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
     t.index ["service_id"], name: "index_event_groupes_on_service_id"
     t.index ["therapist_id"], name: "index_event_groupes_on_therapist_id"
   end
@@ -37,8 +39,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_142532) do
     t.datetime "updated_at", null: false
     t.bigint "therapist_id", null: false
     t.bigint "patient_id", null: false
-    t.bigint "ordonnance_id", null: false
+    t.bigint "ordonnance_id"
     t.bigint "service_id", null: false
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
     t.index ["ordonnance_id"], name: "index_event_individuels_on_ordonnance_id"
     t.index ["patient_id"], name: "index_event_individuels_on_patient_id"
     t.index ["service_id"], name: "index_event_individuels_on_service_id"
