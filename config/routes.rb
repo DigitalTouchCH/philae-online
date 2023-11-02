@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :users, only: [:index]
   resources :therapists, only: [:show] do
     get 'all_events', on: :member, defaults: { format: :json }
+    member do
+      patch :update_event
+    end
   end
 
 

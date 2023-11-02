@@ -1,5 +1,15 @@
 <div class="container">
-  <div data-controller="fullcalendar" data-fullcalendar-target="calendar" data-events-url="<%= all_events_therapist_path(@therapist) %>"></div>
+  <!-- Ajoutez un identifiant ou une classe à votre div pour la styliser plus tard si nécessaire -->
+  <div data-controller="fullcalendar" data-therapist-id="<%= @therapist.id %>">
+    <!-- Cible de l'infobulle pour Stimulus -->
+    <div data-fullcalendar-target="tooltip" class="tooltip" style="display: none;">
+      <!-- Contenu de l'infobulle; il sera rempli par Stimulus -->
+    </div>
+
+    <!-- Calendrier ici avec la cible Stimulus et les données URL pour les événements -->
+    <div data-fullcalendar-target="calendar" data-events-url="<%= all_events_therapist_path(@therapist) %>"></div>
+  </div>
 </div>
 
+<!-- Ce paragraphe affiche l'URL des événements, utile pour le débogage mais peut-être pas nécessaire en production -->
 <p><%= all_events_therapist_path(@therapist) %></p>
