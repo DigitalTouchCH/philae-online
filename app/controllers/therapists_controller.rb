@@ -7,33 +7,41 @@ class TherapistsController < ApplicationController
   def all_events
     @therapist = Therapist.find(params[:id])
     authorize @therapist
+
     @personal_events = @therapist.event_personels.map do |event|
       {
+        id: event.id,
+        eventType: 'personal',
         title: 'Personal Event',
         start: event.start_date_time.iso8601,
         end: event.end_date_time.iso8601,
         reason: event.reason,
-        color: '#D3D3D3'
-        # Autres propriétés d'événement personnalisées (ne pas utiliser les commentaires JavaScript ici)
+        color: '#D3D3D3',
+        # Autres propriétés d'événement personnalisées
       }
     end
 
     @group_events = @therapist.event_groupes.map do |event|
       {
+        id: event.id,
+        eventType: 'group',
         title: 'Group Event',
         start: event.start_date_time.iso8601,
         end: event.end_date_time.iso8601
-        # Autres propriétés d'événement de groupe (ne pas utiliser les commentaires JavaScript ici)
+        # Autres propriétés d'événement de groupe
       }
     end
 
     @individual_events = @therapist.event_individuels.map do |event|
       {
+        id: event.id,
+        eventType: 'individual',
         title: 'Individual Event',
         start: event.start_date_time.iso8601,
         end: event.end_date_time.iso8601,
-        color: event.service.color
-        # Autres propriétés d'événement individuel (ne pas utiliser les commentaires JavaScript ici)
+        color: event.service.color,
+        patient: event.patient.first_name + ' ' + event.patient.last_name,
+        # Autres propriétés d'événement individuel
       }
     end
 
@@ -43,20 +51,22 @@ class TherapistsController < ApplicationController
   end
 
   def update_event
-    # Vous devez déterminer comment vous savez quel événement mettre à jour.
-    # Cela pourrait être via des paramètres transmis lors de l'événement drop.
-    # Par exemple, vous pourriez avoir un paramètre :event_id et :event_type
+    @therapist = Therapist.find(params[:id])
+    authorize @therapist
+
+    event_id = params[:event_id]
     event_type = params[:event_type]
-    event = case event_type
-            when 'personal'
-              @therapist.event_personels.find(params[:event_id])
-            when 'group'
-              @therapist.event_groupes.find(params[:event_id])
-            when 'individual'
-              @therapist.event_individuels.find(params[:event_id])
-            else
-              nil
-            end
+
+    case event_type
+      when 'personal'
+        event = @therapist.event_personels.find_by(id: event_id)
+      when 'group'
+        event = @therapist.event_groupes.find_by(id: event_id)
+      when 'individual'
+        event = @therapist.event_individuels.find_by(id: event_id)
+      else
+        event = nil
+    end
 
     if event
       start_time = Time.zone.parse(params[:start])
