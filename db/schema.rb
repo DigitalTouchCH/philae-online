@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_02_210252) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -169,7 +169,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_210252) do
     t.datetime "updated_at", null: false
     t.bigint "week_availability_id", null: false
     t.bigint "room_id", null: false
-    t.bigint "equipement_id", null: false
+    t.bigint "equipement_id"
     t.index ["equipement_id"], name: "index_time_blocks_on_equipement_id"
     t.index ["room_id"], name: "index_time_blocks_on_room_id"
     t.index ["week_availability_id"], name: "index_time_blocks_on_week_availability_id"
@@ -217,6 +217,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_210252) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "therapist_id", null: false
+    t.index ["therapist_id"], name: "index_week_availabilities_on_therapist_id"
   end
 
   add_foreign_key "event_groupes", "services"
@@ -243,4 +245,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_210252) do
   add_foreign_key "video_patients", "patients"
   add_foreign_key "video_patients", "videos"
   add_foreign_key "videos", "therapists"
+  add_foreign_key "week_availabilities", "therapists"
 end

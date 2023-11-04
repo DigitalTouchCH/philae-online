@@ -1,7 +1,7 @@
 class TimeBlock < ApplicationRecord
   belongs_to :week_availability
   belongs_to :room
-  belongs_to :equipement
+  belongs_to :equipement, optional: true
 
   validates :week_day, presence: true
   validates :start_time, presence: true

@@ -12,9 +12,8 @@ Rails.application.routes.draw do
       patch :update_event
     end
   end
+  resources :week_availabilities do
+    resources :time_blocks
+  end
 
-
-
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 end
