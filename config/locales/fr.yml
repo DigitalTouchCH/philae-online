@@ -1,0 +1,24 @@
+fr:
+  hello: "Bonjour"
+  goodbye: "Au revoir"
+  # Ajoutez ici d'autres traductions nécessaires pour votre application.
+
+fr:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+  time:
+    formats:
+      short: "%H:%M"
+
+
+
+fr:
+  days:
+    monday: "Lundi"
+    tuesday: "Mardi"
+    wednesday: "Mercredi"
+    thursday: "Jeudi"
+    friday: "Vendredi"
+    saturday: "Samedi"
+    sunday: "Dimanche"

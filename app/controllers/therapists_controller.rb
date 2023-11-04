@@ -45,7 +45,14 @@ class TherapistsController < ApplicationController
       }
     end
 
-    @all_events = @personal_events + @group_events + @individual_events
+    @background_event = [{
+      start: '2023-11-03T10:00:00',
+      end: '2023-11-03T16:00:00',
+      display: 'background',
+      color: '#FF0000'
+    }]
+
+    @all_events = @personal_events + @group_events + @individual_events + @background_event
 
     render json: @all_events.to_json
   end

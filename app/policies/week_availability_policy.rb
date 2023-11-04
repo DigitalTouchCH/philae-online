@@ -1,21 +1,9 @@
-# app/policies/therapist_policy.rb
+class WeekAvailabilityPolicy < ApplicationPolicy
 
-class TherapistPolicy < ApplicationPolicy
-  def show?
+  def index?
     user.is_admin? || record == user.therapist
   end
 
-  def events?
-    show?
-  end
-
-  def all_events?
-    true
-  end
-
-  def update_event?
-    show?
-  end
 
   class Scope < Scope
     def resolve
@@ -26,4 +14,5 @@ class TherapistPolicy < ApplicationPolicy
       end
     end
   end
+
 end

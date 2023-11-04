@@ -13,8 +13,8 @@ Ordonnance.destroy_all
 TherapistService.destroy_all
 Service.destroy_all
 Video.destroy_all
+WeekAvailability.destroy_all
 Room.destroy_all
-TimeBlock.destroy_all
 Location.destroy_all
 Therapist.destroy_all
 Patient.destroy_all
@@ -286,3 +286,39 @@ therapists.each do |therapist|
 end
 
 puts "Individual events created."
+
+
+# AVAILABILITIES
+
+puts "Creating week availabilities..."
+
+days_of_week = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
+therapists = Therapist.all
+
+therapists.each do |therapist|
+  week_availability = WeekAvailability.create!(
+    therapist: therapist,
+    valid_from: Date.new(2023, 1, 1),
+    valid_until: Date.new(2023, 12, 31),
+    name: "Standard"
+  )
+  days_of_week.each do |day|
+    TimeBlock.create!(
+      week_availability: week_availability,
+      week_day: day,
+      start_time: "08:00",
+      end_time: "12:00",
+      room: Room.all.sample
+    )
+    TimeBlock.create!(
+      week_availability: week_availability,
+      week_day: day,
+      start_time: "13:00",
+      end_time: "17:00",
+      room: Room.all.sample
+    )
+  end
+end
+
+puts "#{WeekAvailability.count} week_availability created."
+puts "#{TimeBlock.count} time_blocks created."
