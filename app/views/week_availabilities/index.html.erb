@@ -3,16 +3,15 @@
     <div class="mb-5">
       <div class="row">
         <h1> Gestion des disponibilitées </h1>
+        <%= t('hello') %>
     </div>
-
     <div class="mb-5">
       <div data-controller="toggle">
         <% @week_availabilities.each do |week_availability| %>
           <div class="mb-5">
             <div class="text-center">
-              <%= t('hello') %>
               <%= week_availability.therapist.first_name %> <%= week_availability.therapist.last_name.upcase %>
-              De <strong><%= week_availability.valid_from.strftime('%A %d %B %Y') %></strong> à <strong><%= week_availability.valid_until.strftime('%A %d %B %Y') %></strong>
+              De <strong><%= l(week_availability.valid_from, format: :long) %></strong> à <strong><%= l(week_availability.valid_until, format: :long) %></strong>
               <%= link_to new_week_availability_time_block_path(week_availability), class: 'float-right ml-2' do %>
                   <i class="fas fas-black fa-plus" title="Add Time Block"></i>
               <% end %>

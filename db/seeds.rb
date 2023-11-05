@@ -185,12 +185,26 @@ filtered_names = full_names.reject { |name| name.start_with?("_") }.map do |full
   [first_name, last_name]
 end
 
+patient_comments = [
+  "Le patient présente une anxiété marquée dans les situations sociales.",
+  "Manifeste un intérêt accru pour les activités artistiques comme moyen d'expression.",
+  "Suit un régime alimentaire spécifique dû à des allergies alimentaires multiples.",
+  "A des antécédents familiaux de dépression, à surveiller de près pour des signes similaires.",
+  "Le patient a montré une amélioration notable suite à l'ajustement de son traitement médicamenteux.",
+  "Exprime régulièrement des difficultés à s'endormir et à maintenir un sommeil réparateur.",
+  "Rapporte un niveau de douleur chronique qui interfère avec les activités quotidiennes.",
+  "Le patient utilise la méditation et le yoga comme stratégies d'atténuation du stress.",
+  "A une histoire de traumatisme dans l'enfance qui pourrait être pertinent pour les problèmes actuels.",
+  "Le patient a exprimé une motivation croissante pour s'engager dans des thérapies comportementales."
+]
+
+
 filtered_names.each do |first_name, last_name|
   Patient.create!(
     first_name: first_name,
     last_name: last_name,
-    date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 80)
-    # ... any other patient data you want to import
+    date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 80),
+    commentaire: patient_comments.sample
   )
 end
 
@@ -200,6 +214,7 @@ puts "Patients imported."
 puts "Creating services..."
 general_physio = Service.create!(
   name: "Physiothérapie générale",
+  name_short: "Physio",
   active: true,
   duration_per_unit: 30, # Supposons que la durée par unité est de 30 minutes
   is_group: false, # Supposons que ce service est individuel
@@ -207,6 +222,7 @@ general_physio = Service.create!(
 )
 female_perineal_reeducation = Service.create!(
   name: "Rééducation périnéale féminine",
+  name_short: "R. périnée",
   active: true,
   duration_per_unit: 45, # Supposons que la durée par unité est de 45 minutes
   is_group: false,
@@ -214,6 +230,7 @@ female_perineal_reeducation = Service.create!(
 )
 vestibular_reeducation = Service.create!(
   name: "Rééducation vestibulaire",
+  name_short: "R. vestibulaire",
   active: true,
   duration_per_unit: 30, # Supposons que la durée par unité est de 30 minutes
   is_group: false,
@@ -245,6 +262,69 @@ TherapistService.create!(therapist: anne_laure, service: female_perineal_reeduca
 puts "Specific services assigned to therapists by name."
 
 
+# db/seeds.rb
+
+# Création de 20 prescripteurs avec des informations aléatoires
+20.times do
+  Prescripteur.create!(
+    name: Faker::Name.name,
+    address: Faker::Address.full_address,
+    tel: Faker::PhoneNumber.phone_number,
+    mail: Faker::Internet.email
+  )
+end
+
+# Liste de commentaires synthétisant le contenu de l'ordonnance
+ordonnance_comments = [
+  "Première consultation post-opératoire, rééducation recommandée.",
+  "Douleurs lombaires persistantes, nécessite une attention particulière.",
+  "Réadaptation à l'effort suite à une longue période d'inactivité.",
+  "Renforcement musculaire pour préparation d'une compétition sportive.",
+  "Thérapie manuelle requise pour amélioration de la mobilité articulaire.",
+  "Programme de rééducation respiratoire suite à une infection pulmonaire.",
+  "Gestion de la douleur chronique par des techniques de relaxation.",
+  "Amélioration de la posture et de l'équilibre avec exercices spécifiques.",
+  "Exercices de réhabilitation pour une récupération post-accident.",
+  "Traitement de la fatigue musculaire due à un surmenage professionnel."
+]
+
+# Liste de titres courts pour les ordonnances
+ordonnance_titles = [
+  "Physio genoux",
+  "Fuite urinaire",
+  "Rééducation épaule",
+  "Douleur cervicale",
+  "Thérapie de la main",
+  "Renforcement abdominal",
+  "Migraines fréquentes",
+  "Suivi post-natal",
+  "Lombalgie chronique",
+  "Stress et anxiété"
+]
+
+# Assigner 0 à 3 ordonnances pour chaque patient
+Patient.find_each do |patient|
+  # Générer un nombre aléatoire d'ordonnances, avec un poids pour 0 ordonnance
+  num_of_ordonnances = [0, 1, 1, 2, 2, 3].sample
+  next if num_of_ordonnances == 0
+
+  num_of_ordonnances.times do
+    Ordonnance.create!(
+      date_prescription: Faker::Date.between(from: 1.year.ago, to: Date.today),
+      num_of_session: rand(1..10), # ou toute autre logique appropriée pour num_of_session
+      title: ordonnance_titles.sample,
+      commentaire: ordonnance_comments.sample,
+      prescripteur: Prescripteur.order('RANDOM()').first,
+      patient: patient
+    )
+  end
+end
+
+puts 'Ordonnances created.'
+
+
+
+
 puts "Creating individual events..."
 
 # Fetch some existing records to associate with events
@@ -254,13 +334,19 @@ services = Service.where(is_group: false) # Fetch only individual services
 ordonnances = Ordonnance.all # Assuming Ordonnance records are present
 statuses = ["non confirmée", "confirmé", "réalisé", "annulé", "non excusé"] # Possible status values
 
-# Set the times for when the events will take place
-starting_date = Date.tomorrow
-event_times = ['09:00', '11:00', '14:00', '16:00'] # Example time slots
+# Set the period for when the events will take place
+starting_date = 7.days.ago.beginning_of_day # 7 days before today
+ending_date = 14.days.from_now.beginning_of_day # 14 days after today
+
+# Generate 10 time slots per day
+event_times = (9..18).map { |hour| "#{hour}:00" }
 
 therapists.each do |therapist|
-  (starting_date..starting_date + 6.days).each do |date|
-    event_times.each do |time|
+  (starting_date.to_date..ending_date.to_date).each do |date|
+    # Skip weekends
+    next if date.saturday? || date.sunday?
+
+    event_times.sample(10).each do |time|
       # Parse the date and time to create a valid DateTime object
       start_time = DateTime.parse("#{date} #{time}")
       end_time = start_time + services.sample.duration_per_unit.minutes # Use a sample service duration
@@ -286,6 +372,7 @@ therapists.each do |therapist|
 end
 
 puts "Individual events created."
+
 
 
 # AVAILABILITIES

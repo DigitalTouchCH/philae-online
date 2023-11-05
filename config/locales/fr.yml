@@ -1,24 +1,15 @@
 fr:
   hello: "Bonjour"
   goodbye: "Au revoir"
-  # Ajoutez ici d'autres traductions nécessaires pour votre application.
-
-fr:
   date:
+    day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
+    abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
+    month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
+    abbr_month_names: [~, janv., févr., mars, avr., mai, juin, juil., août, sept., oct., nov., déc.]
     formats:
       default: "%d/%m/%Y"
+      long: "%A %d %B %Y"
+      short: "%d %b"
   time:
     formats:
       short: "%H:%M"
-
-
-
-fr:
-  days:
-    monday: "Lundi"
-    tuesday: "Mardi"
-    wednesday: "Mercredi"
-    thursday: "Jeudi"
-    friday: "Vendredi"
-    saturday: "Samedi"
-    sunday: "Dimanche"

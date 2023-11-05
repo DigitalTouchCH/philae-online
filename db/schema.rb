@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_05_214249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.bigint "service_id", null: false
     t.datetime "start_date_time"
     t.datetime "end_date_time"
+    t.text "commentaire"
     t.index ["service_id"], name: "index_event_groupes_on_service_id"
     t.index ["therapist_id"], name: "index_event_groupes_on_therapist_id"
   end
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.bigint "service_id", null: false
     t.datetime "start_date_time"
     t.datetime "end_date_time"
+    t.text "commentaire"
     t.index ["ordonnance_id"], name: "index_event_individuels_on_ordonnance_id"
     t.index ["patient_id"], name: "index_event_individuels_on_patient_id"
     t.index ["service_id"], name: "index_event_individuels_on_service_id"
@@ -82,6 +84,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.datetime "updated_at", null: false
     t.bigint "prescripteur_id", null: false
     t.bigint "patient_id", null: false
+    t.text "commentaire"
+    t.string "title"
     t.index ["patient_id"], name: "index_ordonnances_on_patient_id"
     t.index ["prescripteur_id"], name: "index_ordonnances_on_prescripteur_id"
   end
@@ -111,6 +115,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.text "commentaire"
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
@@ -120,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.string "tel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mail"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -138,6 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_183609) do
     t.boolean "is_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name_short"
   end
 
   create_table "therapist_services", force: :cascade do |t|
