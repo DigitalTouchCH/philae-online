@@ -27,7 +27,9 @@ class TherapistsController < ApplicationController
         eventType: 'group',
         title: 'Group Event',
         start: event.start_date_time.iso8601,
-        end: event.end_date_time.iso8601
+        end: event.end_date_time.iso8601,
+        service: event.service.name_short,
+        # serviceshort: event.service.short_name
         # Autres propriétés d'événement de groupe
       }
     end
@@ -40,8 +42,13 @@ class TherapistsController < ApplicationController
         start: event.start_date_time.iso8601,
         end: event.end_date_time.iso8601,
         color: event.service.color,
-        patient: event.patient.first_name + ' ' + event.patient.last_name,
-        # Autres propriétés d'événement individuel
+        #extra
+        patient: event.patient.last_name.upcase.slice(0, 12),
+        patientfull: event.patient.first_name.capitalize + ' ' + event.patient.last_name.upcase,
+        patientId: event.patient.id,
+        servicename: event.service.name_short,
+        ordo_event_count: event.ordonnance ? event.ordonnance.event_individuels.count.to_s : "?",
+        ordo_nb_total: event.ordonnance ? event.ordonnance.num_of_session.to_s : "?"
       }
     end
 

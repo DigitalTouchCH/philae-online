@@ -30,6 +30,7 @@ export default class extends Controller {
     const calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin, timeGridPlugin, bootstrapPlugin, interactionPlugin],
       themeSystem: "bootstrap5",
+      locale: 'fr',
       initialView: "timeGridWeek",
       headerToolbar: {
         left: "prev,next today",
@@ -54,13 +55,51 @@ export default class extends Controller {
         let view = arg.view.type; // Obtenir le type de vue actuel
 
         switch (view) {
+
           case 'dayGridMonth': // Vue mensuelle
             // Ajoutez le contenu spécifique à la vue mensuelle
-            domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>`;
+            switch (arg.event.extendedProps.eventType) {
+              case 'personal':
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>
+                                        <span class="event-reason">${arg.event.extendedProps.reason}</span>`;
+                break;
+              case 'group':
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>`;
+                break;
+              case 'individual':
+                domContent.innerHTML = `<span>${arg.event.extendedProps.service} : </span>
+                                        <span>${arg.event.extendedProps.patient}</span>`;
+                break;
+              default:
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>`;
+                break;
+            }
             break;
+
           case 'timeGridWeek': // Vue hebdomadaire
+            switch (arg.event.extendedProps.eventType) {
+              case 'personal':
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>
+                                        <span class="event-reason">${arg.event.extendedProps.reason}</span>`;
+                break;
+              case 'group':
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>`;
+                break;
+              case 'individual':
+                domContent.innerHTML = `<span>${arg.event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - </span>
+                                        <span>${arg.event.extendedProps.patient}</span><br>
+                                        <span>${arg.event.extendedProps.ordo_event_count}/${arg.event.extendedProps.ordo_nb_total} - </span>
+                                        <span>${arg.event.extendedProps.servicename}</span>`;
+                break;
+              default:
+                domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>`;
+                break;
+            }
+            break;
+
+
+
           case 'timeGridDay': // Vue journalière
-            // Ajoutez le contenu pour les vues hebdomadaire et journalière
             switch (arg.event.extendedProps.eventType) {
               case 'personal':
                 domContent.innerHTML = `<span class="event-title">${arg.event.title}</span>
@@ -78,11 +117,12 @@ export default class extends Controller {
                 break;
             }
             break;
-          // Vous pouvez ajouter d'autres cas si vous utilisez d'autres types de vues
-        }
+
+          }
 
         return { domNodes: [domContent] };
       },
+
 
 
       eventDidMount: (info) => {
