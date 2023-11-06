@@ -1,36 +1,79 @@
-<div class="container mt-5">
-    <h1 class="mb-4">Firms</h1>
+<!-- app/views/firms/index.html.erb -->
+<div class="container mt-5" data-controller="edit-firm">
+  <h1 class="mb-4">Firms</h1>
+  <%= link_to 'New Firm', new_firm_path, class: "btn btn-primary mb-3" %>
 
-    <% @firms.each do |firm| %>
-        <div class="mb-4">
-            <h2><%= firm.name %></h2>
-            <p><%= firm.address %></p>
+  <% @firms.each do |firm| %>
+    <div class="card mb-4">
+      <div class="card-body" data-firm-target="form">
+        <%= form_with(model: firm, local: true) do |f| %>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="card-title m-0">
+              <%= f.text_field :name, readonly: true, class: "form-control", data: { firm_target: "input name" } %>
+            </h2>
+            <div>
+              <%= button_tag 'Edit', type: 'button', class: "btn btn-outline-primary", data: { action: "click->edit-firm#edit" } %>
+              <%= f.submit "Save", class: "btn btn-outline-success d-none", data: { firm_target: "saveButton", action: "click->edit-firm#save" } %>
+            </div>
+          </div>
+          <p class="card-text">
+            <%= f.text_area :address, readonly: true, class: "form-control", rows: 3, data: { firm_target: "textArea" } %>
+          </p>
+          <!-- Therapists collection_select omitted for brevity -->
+          <%= link_to "Delete", firm_path(firm), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-            <h3>Therapists:</h3>
-            <ul class="list-unstyled">
-                <% firm.therapists.each do |therapist| %>
-                    <li class="mb-3">
-                        <strong>
-                            <%= link_to "#{therapist.first_name} #{therapist.last_name}", therapist_path(therapist) %>
-                        </strong>
-                        <p>
-                            "id : <%= therapist.id %>"
-                        </p>
-                        <p class="mb-0">
-                            <span class="badge <%= therapist.is_manager ? 'bg-success' : 'bg-info' %>">
-                                <%= therapist.is_manager ? 'Manager' : 'Therapist' %>
-                            </span>
-                        </p>
-                        <!-- Add a list of services for each therapist -->
-                        <p>Services:</p>
-                        <ul>
-                            <% therapist.services.each do |service| %>
-                                <li><%= service.name %></li>
-                            <% end %>
-                        </ul>
-                    </li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- app/views/firms/index.html.erb -->
+<div class="container mt-5" data-controller="edit-firm">
+  <h1 class="mb-4">Firms</h1>
+
+  <%= link_to 'New Firm', new_firm_path, class: "btn btn-primary mb-3" %>
+
+  <% @firms.each do |firm| %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <%= form_with(model: firm, local: true, data: { firm_target: "form" }) do |f| %>
+          <h2 class="card-title">
+            <%= f.text_field :name, readonly: true, class: "form-control-plaintext", data: { firm_target: "name", action: "click->edit-firm#edit" } %>
+          </h2>
+          <p class="card-text">
+            <%= f.text_area :address, readonly: true, rows: 3, class: "form-control-plaintext", data: { firm_target: "address" } %>
+          </p>
+
+          <div>
+            <%= f.label :therapist_ids, "Therapists" %>
+            <%= f.collection_select :therapist_ids, Therapist.all, :id, :display_name, {}, { multiple: true, class: "form-select", data: { firm_target: "therapistSelect" } } %>
+          </div>
+
+          <div class="d-flex justify-content-between mt-3">
+            <%= button_tag 'Edit', type: 'button', class: "btn btn-outline-primary editButton", data: { action: "click->edit-firm#edit", firm_target: "editButton" } %>
+            <%= f.submit "Save", class: "btn btn-outline-success d-none saveButton", data: { action: "click->edit-firm#save", firm_target: "saveButton" } %>
+            <%= link_to "Delete", firm_path(firm), class: "btn btn-outline-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
