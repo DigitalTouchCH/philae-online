@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import fullcalendar_controller from "./fullcalendar_controller"
 application.register("fullcalendar", fullcalendar_controller)
+
+import edit_firm_controller from "./edit_firm_controller"
+application.register("edit-firm", edit_firm_controller)

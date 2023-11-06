@@ -1,0 +1,26 @@
+<!-- app/views/firms/new.html.erb -->
+<div class="container mt-5">
+  <h1 class="mb-4">New Firm</h1>
+
+  <%= form_with model: @firm, local: true do |f| %>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :address %>
+      <%= f.text_area :address, class: 'form-control' %>
+    </div>
+
+    <!-- Add a selection field for therapists -->
+    <div class="field">
+      <%= f.label :therapist_ids, "Select Therapists" %>
+      <%= f.collection_select :therapist_ids, Therapist.all, :id, :display_name, { include_blank: true }, { multiple: true, class: 'form-control' } %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit 'Create Firm', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
