@@ -34,16 +34,20 @@ class FirmsController < ApplicationController
   def update
     authorize @firm
     if @firm.update(firm_params)
-      redirect_to @firm, notice: 'Firm was successfully updated.'
+      redirect_to firms_path, notice: 'La société a été mise à jour avec succès.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     authorize @firm
-    @firm.destroy
-    redirect_to firms_url, notice: 'Firm was successfully destroyed.'
+    @firm.therapists.update_all(firm_id: nil)
+    if @firm.destroy
+      redirect_to firms_url, notice: 'Firm was successfully destroyed.'
+    else
+      redirect_to firms_url, alert: 'Firm could not be destroyed. Please make sure all dependencies are removed.'
+    end
   end
 
   private

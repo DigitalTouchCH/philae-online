@@ -15,6 +15,10 @@ class FirmPolicy < ApplicationPolicy
     user.is_admin?
   end
 
+  def edit?
+    user.is_admin?
+  end
+
   def update?
     user.is_admin?
   end
@@ -26,7 +30,7 @@ class FirmPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.is_admin? || user.therapist?
-        scope.all
+        scope.includes(:therapists).all
       else
         scope.none
       end
