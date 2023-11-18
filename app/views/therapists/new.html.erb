@@ -1,0 +1,30 @@
+<!-- app/views/therapists/new.html.erb -->
+<div class="container mt-5">
+  <h1 class="mb-4">Nouveau Thérapeute</h1>
+
+  <%= form_with model: @therapist, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :first_name, 'Prénom' %>
+      <%= f.text_field :first_name, class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :last_name, 'Nom' %>
+      <%= f.text_field :last_name, class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group form-check">
+      <%= f.label :is_manager, class: 'form-check-label' %>
+      <%= f.check_box :is_manager, class: 'form-check-input' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit 'Créer le thérapeute', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Retour à la liste des thérapeutes', therapists_path, class: 'btn btn-secondary mt-3' %>
+</div>
+
+
+#MANQUE VALIDATION USER ET FIRM

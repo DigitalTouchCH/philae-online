@@ -1,0 +1,13 @@
+<!-- app/views/therapists/index.html.erb -->
+<div class="container mt-5" data-controller="edit-therapist">
+  <h1 class="mb-4">Thérapeutes</h1>
+  <%= link_to 'Nouveau Thérapeute', new_therapist_path, class: "btn btn-primary mb-3" %>
+
+  <% @firms.each do |firm| %>
+    <h2><%= firm.name %></h2>
+    <%= render 'therapists_list', therapists: firm.therapists %>
+  <% end %>
+
+  <h2>Non rattaché à une société</h2>
+  <%= render 'therapists_list', therapists: @unattached_therapists %>
+</div>
