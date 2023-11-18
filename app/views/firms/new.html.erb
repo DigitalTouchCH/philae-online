@@ -13,7 +13,6 @@
       <%= f.text_area :address, class: 'form-control' %>
     </div>
 
-    <!-- Add a selection field for therapists -->
     <div class="field">
       <%= f.label :therapist_ids, "Select Therapists" %>
       <%= f.collection_select :therapist_ids, Therapist.all, :id, :display_name, { include_blank: true }, { multiple: true, class: 'form-control' } %>

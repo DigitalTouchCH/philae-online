@@ -1,7 +1,57 @@
 class TherapistsController < ApplicationController
+
+
+  before_action :authenticate_user!
+  before_action :set_therapist, only: [:show, :edit, :update, :destroy, :all_events, :update_event]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
+  def index
+    @therapists = policy_scope(Therapist).includes(:firm).order(:last_name, :first_name)
+    @firms = Firm.includes(:therapists).order(:name)
+    @unattached_therapists = Therapist.where(firm_id: nil).order(:last_name, :first_name)
+  end
+
   def show
-    @therapist = Therapist.find(params[:id])
     authorize @therapist
+  end
+
+  def new
+    @therapist = Therapist.new
+    authorize @therapist
+  end
+
+  def create
+    @therapist = Therapist.new(therapist_params)
+    authorize @therapist
+
+    if @therapist.save
+      redirect_to therapists_path, notice: 'Therapist was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def edit
+    authorize @therapist
+  end
+
+  def update
+    authorize @therapist
+    if @therapist.update(therapist_params)
+      redirect_to therapists_path, notice: 'Therapist was successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    authorize @therapist
+    if @therapist.destroy
+      redirect_to therapists_url, notice: 'Therapist was successfully destroyed.'
+    else
+      redirect_to therapists_url, alert: 'Therapist could not be destroyed. Please make sure all dependencies are removed.'
+    end
   end
 
   def all_events
@@ -96,4 +146,16 @@ class TherapistsController < ApplicationController
     end
   end
 
+  private
+
+  def set_therapist
+    @therapist = Therapist.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to therapists_url, alert: 'Therapist not found.'
+  end
+
+  def therapist_params
+    params.require(:therapist).permit(:first_name, :last_name, :is_manager, :user_id, :firm_id)
+    # Ajoutez d'autres attributs ici selon le besoin.
+  end
 end
