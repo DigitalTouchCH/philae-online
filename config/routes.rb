@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :firms
   resources :patients, only: [:index]
-  resources :users, only: [:index]
+  resources :users, only: [:index, :edit, :update]
   resources :therapists do
     get 'all_events', on: :member, defaults: { format: :json }
     member do

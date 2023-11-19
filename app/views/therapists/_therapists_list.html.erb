@@ -1,29 +1,68 @@
 <!-- app/views/therapists/_therapists_list.html.erb -->
+
 <% therapists.each do |therapist| %>
-  <div class="card mb-4" data-controller="edit-therapist">
+  <div class="card mb-4" data-controller="edit-form">
     <div class="card-body">
       <%= form_with(model: therapist, local: true) do |f| %>
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="justify-content-between align-items-center mb-3">
+
           <div class="form-group">
             <%= f.label :first_name, 'Prénom' %>
-            <%= f.text_field :first_name, readonly: true, class: "form-control" %>
+            <%= f.text_field :first_name,
+                              readonly: true,
+                              class: "form-control" %>
           </div>
+
           <div class="form-group">
             <%= f.label :last_name, 'Nom' %>
-            <%= f.text_field :last_name, readonly: true, class: "form-control" %>
+            <%= f.text_field :last_name,
+                              readonly: true,
+                              class: "form-control" %>
           </div>
+
+          <div class="form-group form-check">
+            <%= f.label :is_manager, 'Manager ?' %>
+            <%= f.hidden_field :is_active, value: 0 %>
+            <%= f.check_box :is_manager ,
+                            disabled: true,
+                            data: { action: "click->edit-form#toggleCheckbox" },
+                            checked_value: 1,
+                            unchecked_value: 0 %>
+          </div>
+
+          <div class="form-group form-check">
+            <%= f.label :is_active, 'Actif ?'%>
+            <%= f.hidden_field :is_active, value: 0 %>
+            <%= f.check_box :is_active,
+                            disabled: true,
+                            data: { action: "click->edit-form#toggleCheckbox" },
+                            checked_value: 1,
+                            unchecked_value: 0 %>
+          </div>
+
           <div class="form-group">
-            <%= f.label :is_manager, 'Manager' %>
-            <%= f.hidden_field :is_manager, value: 0 %>
-            <%= f.check_box :is_manager , disabled: true, data: { action: "click->edit-therapist#toggleCheckbox" }, checked_value: 1, unchecked_value: 0 %>
+            <%= f.label :firm_id, 'Société liée' %>
+            <%= f.collection_select :firm_id,
+                                    Firm.all, :id, :name,
+                                    { include_blank: 'Sélectionnez une société' },
+                                    { class: 'form-control', required: true, data: { edit_form_target: "select" }, disabled: true } %>
           </div>
+
+          <div class="form-group">
+            <%= f.label :user_id, 'Utilisateur lié' %>
+            <%= f.collection_select :user_id, User.all, :id, :email,
+                                    { include_blank: 'Sélectionnez un utilisateur' },
+                                    { class: 'form-control', required: true, data: { edit_form_target: "select" }, disabled: true } %>
+          </div>
+
           <div>
-            <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-therapist#edit" } %>
+            <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %>
             <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none" %>
           </div>
+
         </div>
-        <%= link_to "Supprimer", therapist_path(therapist), class: "btn btn-outline-danger", data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr ?" } %>
       <% end %>
     </div>
   </div>
+  <!-- <%= link_to "Supprimer", therapist_path(therapist), class: "btn btn-outline-danger", data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr ?" } %> -->
 <% end %>

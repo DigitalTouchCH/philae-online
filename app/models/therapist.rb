@@ -1,5 +1,4 @@
 class Therapist < ApplicationRecord
-  belongs_to :user, dependent: :destroy
   belongs_to :firm
 
   has_many :event_groupes
@@ -9,11 +8,14 @@ class Therapist < ApplicationRecord
   has_many :services, through: :therapist_services
   has_many :videos
   has_many :week_availabilities
+  has_many :users
 
   # Validations
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :is_manager, inclusion: { in: [true, false] }
+  validates :is_active, inclusion: { in: [true, false] }
+
 
   def display_name
     "#{first_name} #{last_name}"

@@ -1,64 +1,8 @@
 <!-- app/views/firms/index.html.erb -->
-<div class="container mt-5" data-controller="edit-firm">
-  <!-- Titre de la page -->
+<div class="container mt-5" data-controller="edit-form">
   <h1 class="mb-4">Sociétés</h1>
   <!-- Lien pour créer une nouvelle société -->
   <%= link_to 'Nouvelle Société', new_firm_path, class: "btn btn-primary mb-3" %>
 
-  <!-- Boucle sur chaque société (@firms) -->
-  <% @firms.each do |firm| %>
-    <div class="card mb-4" data-controller="edit-firm" data-firm-id="<%= firm.id %>">
-      <!-- Corps de la carte pour une société -->
-      <div class="card-body" data-firm-target="form">
-
-        <!-- Formulaire pour une société spécifique -->
-        <%= form_with(model: firm, local: true) do |f| %>
-
-          <!-- En-tête du formulaire avec le nom de la société -->
-          <div class="d-flex justify-content-between align-items-center mb-3">
-
-            <h2 class="card-title m-0">
-              <%= f.text_field :name, readonly: true, class: "form-control", data: { firm_target: "input name" } %>
-            </h2>
-            <!-- Conteneur pour les boutons Edit et Save -->
-            <div>
-              <!-- Bouton 'Edit' pour activer la modification des champs de la société -->
-              <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "edit-firm#edit", firmId: firm.id } %>
-              <!-- Bouton 'Save' pour enregistrer les modifications, caché par défaut -->
-              <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none", data: { action: "edit-firm#save", firmId: firm.id, turbo_confirm: "Êtes-vous sûr ?" } %>
-            </div>
-          </div>
-          <!-- Paragraphe pour l'adresse de la société -->
-          <p class="card-text">
-            <%= f.text_area :address, readonly: true, class: "form-control", rows: 3, data: { firm_target: "textArea" } %>
-          </p>
-
-          <!-- Affichage des thérapeutes liés en mode normal -->
-          <div class="mb-3">
-            <strong>Thérapeutes liés :</strong>
-            <% if firm.therapists.any? %>
-              <ul>
-                <% firm.therapists.each do |therapist| %>
-                  <li><%= therapist.first_name %> <%= therapist.last_name %></li>
-                <% end %>
-              </ul>
-            <% else %>
-              <p>Aucun thérapeute lié.</p>
-            <% end %>
-          </div>
-
-          <!-- Sélection des thérapeutes en mode édition -->
-          <div class="mb-3 d-none" data-edit-firm-target="therapistSelect">
-            <%= f.label :therapist_ids, "Modifier les thérapeutes liés" %>
-            <%= f.collection_select :therapist_ids, Therapist.all, :id, :display_name, {}, { multiple: true, class: "form-select" } do |therapist| %>
-              <%= content_tag :option, therapist.display_name, value: therapist.id, selected: firm.therapists.include?(therapist), class: ("highlight" if firm.therapists.include?(therapist)) %>
-            <% end %>
-          </div>
-          <!-- Lien pour supprimer la société, avec une confirmation requise -->
-          <%= link_to "Supprimer", firm_path(firm), class: "btn btn-outline-danger", data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr ?" } %>
-        <% end %>
-
-      </div>
-    </div>
-  <% end %>
+  <%= render 'firms_list', firms: @firms %>
 </div>

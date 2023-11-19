@@ -1,16 +1,12 @@
+<!-- app/views/users/index.html.erb -->
 <div class="container mt-5">
-    <h1 class="mb-4">Users</h1>
+  <h1 class="mb-4">Utilisateurs</h1>
+  <h2>Thérapeutes</h2>
+  <%= render 'users_list', users: @therapist_users %>
 
-    <% @users.each do |user| %>
-        <div class="mb-3">
-            <p><%= user.email %> (<%= user.is_admin? ? 'Admin' : 'User' %>)</p>
-            <% if user.patient || user.therapist %>
-                <p>
-                    <span class="badge <%= user.patient ? 'bg-primary' : 'bg-success' %>">
-                        <%= user.patient ? 'Patient' : 'Therapist' %>
-                    </span>
-                </p>
-            <% end %>
-        </div>
-    <% end %>
+  <h2>Patients</h2>
+  <%= render 'users_list', users: @patient_users %>
+
+  <h2>Autres Utilisateurs</h2>
+  <%= render 'users_list', users: @other_users %>
 </div>

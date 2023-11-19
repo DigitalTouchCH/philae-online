@@ -13,6 +13,16 @@
       <%= f.text_field :last_name, class: 'form-control', required: true %>
     </div>
 
+    <div class="form-group">
+      <%= f.label :user_id, 'Utilisateur' %>
+      <%= f.collection_select :user_id, User.all, :id, :email, {}, { class: 'form-control', required: true } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :firm_id, 'Firme' %>
+      <%= f.collection_select :firm_id, Firm.all, :id, :name, { include_blank: 'Sélectionnez une firme' }, { class: 'form-control', required: true } %>
+    </div>
+
     <div class="form-group form-check">
       <%= f.label :is_manager, class: 'form-check-label' %>
       <%= f.check_box :is_manager, class: 'form-check-input' %>
@@ -25,6 +35,3 @@
 
   <%= link_to 'Retour à la liste des thérapeutes', therapists_path, class: 'btn btn-secondary mt-3' %>
 </div>
-
-
-#MANQUE VALIDATION USER ET FIRM
