@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one :therapist
-  has_one :patient
-
+  belongs_to :therapist, optional: true
+  belongs_to :patient, optional: true
 end

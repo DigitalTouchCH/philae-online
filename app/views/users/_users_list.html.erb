@@ -1,0 +1,63 @@
+<!-- app/views/users/_users_list.html.erb -->
+<% users.each do |user| %>
+  <div class="card mb-4" data-controller="edit-form" data-edit-form-target="card">
+    <div class="card-body">
+      <%= form_with(model: user, local: true, data: { action: "submit->edit-form#save" }) do |f| %>
+        <div class="justify-content-between align-items-center mb-3">
+          <div class="form-group">
+            <%= f.label :email, 'Email' %>
+            <%= f.email_field :email,
+                              readonly: true,
+                              class: "form-control",
+                              data: { edit_form_target: "input" } %>
+          </div>
+
+
+          <div class="form-group">
+            <%= f.label :is_admin, 'Admin?' %>
+            <%= f.check_box :is_admin,
+                            disabled: true,
+                            data: { edit_form_target: "checkbox" } %>
+          </div>
+
+          <!-- Si vous permettez la modification des mots de passe, assurez-vous que cela est sécurisé -->
+          <!-- Il est généralement préférable de gérer les modifications de mot de passe dans une vue séparée -->
+
+          <div class="form-group">
+            <%= f.label :therapist_id, 'Thérapeute' %>
+            <%= f.collection_select :therapist_id,
+                                    Therapist.all,
+                                    :id,
+                                    :display_name,
+                                    { include_blank: 'Aucun' },
+                                    { class: 'form-select',
+                                      disabled: true,
+                                      data: { edit_form_target: "select" } } %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :patient_id, 'Patient' %>
+            <%= f.collection_select :patient_id,
+                                    Patient.all,
+                                    :id,
+                                    :display_name,
+                                    { include_blank: 'Aucun' },
+                                    { class: 'form-select',
+                                      disabled: true,
+                                      data: { edit_form_target: "select" } } %>
+          </div>
+
+          <div>
+            <%= button_tag 'Edit',
+                           type: 'button',
+                           class: "editButton btn btn-outline-primary",
+                           data: { action: "click->edit-form#edit" } %>
+            <%= f.submit "Save",
+                         class: "saveButton btn btn-outline-success d-none",
+                         data: { action: "click->edit-form#save" } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
