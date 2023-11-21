@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
 
   resources :firms
+  resources :services, only: [:index, :show, :new, :create, :edit, :update]
   resources :patients, only: [:index]
   resources :users, only: [:index, :edit, :update]
   resources :therapists do

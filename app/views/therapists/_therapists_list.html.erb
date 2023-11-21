@@ -55,6 +55,14 @@
                                     { class: 'form-control', required: true, data: { edit_form_target: "select" }, disabled: true } %>
           </div>
 
+          <div class="form-group">
+            <%= f.label :service_ids, 'Services associés' %>
+            <%= f.collection_select :service_ids,
+                                    Service.all, :id, :name,
+                                    { include_blank: 'Sélectionnez des services' },
+                                    { multiple: true, class: 'form-control', data: { edit_form_target: "select" }, disabled: true } %>
+          </div>
+
           <div>
             <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %>
             <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none" %>
