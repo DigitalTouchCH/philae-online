@@ -27,9 +27,15 @@
             <li class="nav-item">
               <%= link_to "Patients", patients_path, class: "nav-link" %>
             </li>
+            <li class="nav-item">
+              <%= link_to "Services", services_path, class: "nav-link" %>
+            </li>
           <% elsif Therapist.exists?(user_id: current_user.id) %>
             <li class="nav-item">
               <%= link_to "Patients", patients_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Services", services_path, class: "nav-link" %>
             </li>
           <% end %>
           <li class="nav-item dropdown">

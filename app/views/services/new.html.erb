@@ -1,0 +1,44 @@
+<!-- app/views/services/new.html.erb -->
+<div class="container mt-5">
+  <h1 class="mb-4">Créer un nouveau service</h1>
+
+  <%= form_with(model: @service, local: true) do |form| %>
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <%= form.label :name, 'Nom du service' %>
+          <%= form.text_field :name, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :duration_per_unit, 'Durée par unité (en minutes)' %>
+          <%= form.number_field :duration_per_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :color, 'Couleur' %>
+          <%= form.text_field :color, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :is_group, 'Est-ce un service de groupe ?' %>
+          <%= form.check_box :is_group, class: 'form-check-input' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :active, 'Actif' %>
+          <%= form.check_box :active, class: 'form-check-input' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :name_short, 'Nom abrégé' %>
+          <%= form.text_field :name_short, class: 'form-control' %>
+        </div>
+
+        <%= form.submit 'Créer le service', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to 'Retour à la liste', services_path, class: 'btn btn-link' %>
+</div>

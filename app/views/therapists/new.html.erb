@@ -1,4 +1,5 @@
 <!-- app/views/therapists/new.html.erb -->
+
 <div class="container mt-5">
   <h1 class="mb-4">Nouveau Thérapeute</h1>
 
@@ -27,6 +28,20 @@
       <%= f.label :is_manager, class: 'form-check-label' %>
       <%= f.check_box :is_manager, class: 'form-check-input' %>
     </div>
+
+    <div class="form-group form-check">
+      <%= f.label :is_active, class: 'form-check-label' %>
+      <%= f.check_box :is_active, class: 'form-check-input' %>
+    </div>
+
+    <!--
+    <div class="form-group">
+      <%= f.label :service_ids, 'Services associés' %>
+      <%= f.collection_select :service_ids,
+                              Service.all, :id, :name,
+                              {}, { multiple: true, class: 'form-control', data: { edit_form_target: "select" } } %>
+    </div>
+    -->
 
     <div class="form-group">
       <%= f.submit 'Créer le thérapeute', class: 'btn btn-primary' %>

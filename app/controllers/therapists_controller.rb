@@ -156,6 +156,7 @@ class TherapistsController < ApplicationController
 
   def therapist_params
     params.require(:therapist).permit(:first_name, :last_name, :is_manager, :is_active, :user_id, :firm_id)
-    # Ajoutez d'autres attributs ici selon le besoin.
   end
+
+
 end
