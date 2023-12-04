@@ -3,7 +3,7 @@
 <% if @patients.any? %>
   <ul>
     <% @patients.each do |patient| %>
-      <li><%= patient.first_name %> <%= patient.last_name %> (<%= patient.date_of_birth %>)</li>
+      <li><%= link_to "#{patient.first_name} #{patient.last_name} (#{patient.date_of_birth})", patient_path(patient) %></li>
     <% end %>
   </ul>
 <% else %>
