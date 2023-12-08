@@ -66,6 +66,7 @@
           <div>
             <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %>
             <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none" %>
+            <%= link_to 'Voir détails', therapist_path(therapist), class: "btn btn btn-outline-primary" %>
           </div>
 
         </div>

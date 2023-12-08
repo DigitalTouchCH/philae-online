@@ -27,6 +27,39 @@
       <%= f.telephone_field :tel1, class: 'form-control', readonly: true %>
     </div>
 
+        <div class="form-group">
+      <%= f.label :medical_history, 'Histoire médicale' %>
+      <%= f.text_area :medical_history, class: 'form-control', readonly: true, rows: 3 %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :consent_form, 'Formulaire de consentement' %>
+      <%= f.text_field :consent_form, class: 'form-control', readonly: true %>
+      <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+    </div>
+
+    <div class="form-group">
+      <%= f.label :emergency_contact_name, "Contact d'urgence" %>
+      <%= f.text_field :emergency_contact_name, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :emergency_contact_tel, "Téléphone d'urgence" %>
+      <%= f.telephone_field :emergency_contact_tel, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :discharge, 'Decharge' %>
+      <%= f.text_field :discharge, class: 'form-control', readonly: true %>
+      <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+    </div>
+
+    <div class="form-group">
+      <%= f.label :privacy_acknowledgement, 'Accusé de réception de confidentialité' %>
+      <%= f.text_field :privacy_acknowledgement, class: 'form-control', readonly: true %>
+      <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+    </div>
+
     <!-- Autres champs selon le besoin -->
 
     <div>

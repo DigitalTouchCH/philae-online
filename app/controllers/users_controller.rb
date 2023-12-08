@@ -33,6 +33,8 @@ class UsersController < ApplicationController
       :is_admin,
       :therapist_id,
       :patient_id,
+      :first_name,
+      :last_name,
       # Ajoutez ici d'autres paramètres si nécessaire, par exemple pour le mot de passe:
       # :password,
       # :password_confirmation,

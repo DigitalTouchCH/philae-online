@@ -5,6 +5,22 @@
       <%= form_with(model: user, local: true, data: { action: "submit->edit-form#save" }) do |f| %>
         <div class="justify-content-between align-items-center mb-3">
           <div class="form-group">
+            <%= f.label :first_name, 'Prénom' %>
+            <%= f.text_field :first_name,
+                              readonly: true,
+                              class: "form-control",
+                              data: { edit_form_target: "input" } %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :last_name, 'Nom' %>
+            <%= f.text_field :last_name,
+                              readonly: true,
+                              class: "form-control",
+                              data: { edit_form_target: "input" } %>
+          </div>
+
+          <div class="form-group">
             <%= f.label :email, 'Email' %>
             <%= f.email_field :email,
                               readonly: true,

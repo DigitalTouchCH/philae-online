@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_19_165311) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_08_165727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,6 +86,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_19_165311) do
     t.bigint "patient_id", null: false
     t.text "commentaire"
     t.string "title"
+    t.text "physiotherapy_objectiv"
+    t.text "treatment_plan"
+    t.text "progress_notes"
     t.index ["patient_id"], name: "index_ordonnances_on_patient_id"
     t.index ["prescripteur_id"], name: "index_ordonnances_on_prescripteur_id"
   end
@@ -116,6 +119,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_19_165311) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "commentaire"
+    t.text "medical_history"
+    t.string "consent_form"
+    t.text "emergency_contact_name"
+    t.text "emergency_contact_tel"
+    t.string "discharge"
+    t.string "privacy_acknowledgement"
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
@@ -194,6 +203,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_19_165311) do
     t.boolean "is_admin", default: false
     t.bigint "therapist_id"
     t.bigint "patient_id"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["patient_id"], name: "index_users_on_patient_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
