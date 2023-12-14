@@ -2,36 +2,82 @@
 
   <%= form_with(model: @patient, local: true) do |f| %>
 
-    <div class="form-group">
-      <%= f.label :first_name, 'Prénom' %>
-      <%= f.text_field :first_name, class: 'form-control', readonly: true %>
+    <div class="form-header">
+      <h3>Info patient</h3>
+      <div>
+        <i class="fas fa-edit edit-icon" data-action="click->edit-form#edit"></i>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= f.label :last_name, 'Nom' %>
-      <%= f.text_field :last_name, class: 'form-control', readonly: true %>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group flex-group">
+          <%= f.label :first_name, 'Prénom : ' %>
+          <%= f.text_field :first_name, class: 'form-control', readonly: true %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :last_name, 'Nom : ' %>
+          <%= f.text_field :last_name, class: 'form-control', readonly: true %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :date_of_birth, 'Date de naissance : ' %>
+          <%= f.date_field :date_of_birth, class: 'form-control', readonly: true %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :tel1, 'Tel : ' %>
+          <%= f.telephone_field :tel1, class: 'form-control', readonly: true, placeholder: '+41 XX XXX XX XX' %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :tel2, 'Tel : ' %>
+          <%= f.telephone_field :tel2, class: 'form-control', readonly: true, placeholder: '+41 XX XXX XX XX' %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :emergency_contact_name, "Contact d'urgence : " %>
+          <%= f.text_field :emergency_contact_name, class: 'form-control', readonly: true, placeholder: 'Nom et prénom' %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :emergency_contact_tel, "Téléphone d'urgence : " %>
+          <%= f.telephone_field :emergency_contact_tel, class: 'form-control', readonly: true, placeholder: '+41 XX XXX XX XX' %>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :address, 'Adresse :' %>
+          <%= f.text_area :address, class: 'form-control', readonly: true, rows: 3, placeholder: 'Rue, numéro, ville, pays' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :consent_form, 'Formulaire de consentement' %>
+          <%= f.text_field :consent_form, class: 'form-control', readonly: true, placeholder: 'Oui/Non' %>
+          <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+        </div>
+
+        <div class="form-group">
+          <%= f.label :discharge, 'Decharge' %>
+          <%= f.text_field :discharge, class: 'form-control', readonly: true, placeholder: 'Oui/Non' %>
+          <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+        </div>
+
+        <div class="form-group">
+          <%= f.label :privacy_acknowledgement, 'Accusé de réception de confidentialité' %>
+          <%= f.text_field :privacy_acknowledgement, class: 'form-control', readonly: true, placeholder: 'Oui/Non' %>
+          <!-- Ajoutez un lien vers l'image scannée si nécessaire -->
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :medical_history, 'Histoire médicale' %>
+        <%= f.text_area :medical_history, class: 'form-control', readonly: true, rows: 8, placeholder: 'Allergies, maladies, etc.' %>
+      </div>
+
     </div>
 
-    <div class="form-group">
-      <%= f.label :date_of_birth, 'Date de naissance' %>
-      <%= f.date_field :date_of_birth, class: 'form-control', readonly: true %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :address, 'Adresse' %>
-      <%= f.text_area :address, class: 'form-control', readonly: true, rows: 3 %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :tel1, 'Téléphone 1' %>
-      <%= f.telephone_field :tel1, class: 'form-control', readonly: true %>
-    </div>
-
-    <!-- Autres champs selon le besoin -->
-
-    <div>
-      <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %>
-      <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none" %>
+    <div class="row">
+      <div>
+        <!-- <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %> -->
+        <%= f.submit "Save", class: "saveButton btn btn-dark d-none" %>
+      </div>
     </div>
 
   <% end %>

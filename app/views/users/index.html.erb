@@ -1,12 +1,24 @@
 <!-- app/views/users/index.html.erb -->
 <div class="container mt-5">
   <h1 class="mb-4">Utilisateurs</h1>
-  <h2>Thérapeutes</h2>
-  <%= render 'users_list', users: @therapist_users %>
 
-  <h2>Patients</h2>
-  <%= render 'users_list', users: @patient_users %>
+  <div class="row">
 
-  <h2>Autres Utilisateurs</h2>
-  <%= render 'users_list', users: @other_users %>
+    <div class="col-md-4">
+      <h2>Thérapeutes</h2>
+      <%= render 'users_list', users: @therapist_users %>
+    </div>
+
+    <div class="col-md-4">
+      <h2>Patients</h2>
+      <%= render 'users_list', users: @patient_users %>
+    </div>
+
+    <div class="col-md-4">
+      <h2>Autres Utilisateurs</h2>
+      <%= render 'users_list', users: @other_users %>
+    </div>
+
+  </div>
+
 </div>

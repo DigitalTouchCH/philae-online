@@ -27,6 +27,14 @@ class PatientPolicy < ApplicationPolicy
     user&.is_admin?
   end
 
+  def associate_users?
+    user.is_admin? || record.user == user
+  end
+
+  def search_users?
+    user.is_admin? || user&.therapist?
+  end
+
   class Scope < Scope
     def resolve
       if user&.is_admin? || user&.therapist?

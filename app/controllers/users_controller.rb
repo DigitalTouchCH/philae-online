@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to users_path, notice: "Mise à jour de l'utilisateur effectuée"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -33,6 +33,8 @@ class UsersController < ApplicationController
       :is_admin,
       :therapist_id,
       :patient_id,
+      :first_name,
+      :last_name,
       # Ajoutez ici d'autres paramètres si nécessaire, par exemple pour le mot de passe:
       # :password,
       # :password_confirmation,

@@ -3,12 +3,24 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
+  skip_forgery_protection only: [:search_users]
+
 
   def index
-    @patients = policy_scope(Patient).order(:last_name, :first_name)
+    if params[:search].present?
+      # Utilisez 'ILIKE' pour une recherche insensible à la casse dans PostgreSQL
+      search_query = "%#{params[:search]}%"
+      @patients = policy_scope(Patient)
+                   .where("first_name ILIKE ? OR last_name ILIKE ?", search_query, search_query)
+                   .order(:last_name, :first_name)
+    else
+      @patients = policy_scope(Patient).order(:last_name, :first_name)
+    end
   end
 
   def show
+    @patient = Patient.includes(:users).find(params[:id])
+    @users = @patient.users  # Assurez-vous que les utilisateurs associés sont chargés
     authorize @patient
   end
 
@@ -34,7 +46,7 @@ class PatientsController < ApplicationController
   def update
     authorize @patient
     if @patient.update(patient_params)
-      redirect_to patient_path(@patient), notice: 'Patient was successfully updated.'
+      redirect_to patient_path(@patient), notice: "Mise à jour du patient effectué"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -56,15 +68,37 @@ class PatientsController < ApplicationController
     render json: @events.map { |event| { title: event.title, start: event.start_time, end: event.end_time } }
   end
 
+
+
+
   private
 
   def set_patient
     @patient = Patient.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to patients_url, alert: 'Patient not found.'
+    redirect_to patients_url, alert: 'Patient non trouvé.'
   end
 
   def patient_params
-    params.require(:patient).permit(:first_name, :last_name, :date_of_birth, :address, :tel1, :tel2, :contact_name, :contact_info, :contact_tel, :commentaire)
+    params.require(:patient).permit(
+      :first_name,
+      :last_name,
+      :date_of_birth,
+      :address,
+      :tel1,
+      :tel2,
+      :contact_name,
+      :contact_info,
+      :contact_tel,
+      :commentaire,
+      :medical_history,
+      :consent_form,
+      :emergency_contact_name,
+      :emergency_contact_tel,
+      :discharge,
+      :privacy_acknowledgement,
+      :user_ids => [],
+    )
   end
+
 end

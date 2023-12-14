@@ -1,4 +1,37 @@
+<!-- app/views/patients/show.html.erb -->
+
 <div class="container">
   <h1><%= @patient.display_name %></h1>
+
+  <!-- Informations sur les utilisateurs associés -->
+  <% if @patient.users.any? %>
+    <div>
+      <h2>Informations des Utilisateurs Associés</h2>
+      <% @patient.users.each do |user| %>
+        <p>Email: <%= user.email %></p>
+        <!-- Ajoutez ici d'autres informations de l'utilisateur que vous souhaitez afficher -->
+      <% end %>
+    </div>
+  <% else %>
+    <p>Pas d'utilisateurs liés.</p>
+  <% end %>
+
+
+<% if @users.any? %>
+  <ul>
+    <% @users.each do |user| %>
+      <li>
+        <%= user.display_name %>
+        <%= button_to 'Associer', associate_user_patient_path(user_id: user.id), method: :post, remote: true %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Aucun utilisateur trouvé.</p>
+<% end %>
+
+
+
+
   <%= render 'patient_form', patient: @patient %>
 </div>

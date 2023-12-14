@@ -1,5 +1,10 @@
 <h1>Patients</h1>
 
+<%= form_with(url: patients_path, method: :get, local: true) do |f| %>
+  <%= f.text_field :search, placeholder: "Rechercher un patient..." %>
+  <%= f.submit "Rechercher" %>
+<% end %>
+
 <% if @patients.any? %>
   <ul>
     <% @patients.each do |patient| %>
