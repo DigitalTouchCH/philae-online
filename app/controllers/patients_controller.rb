@@ -46,7 +46,7 @@ class PatientsController < ApplicationController
   def update
     authorize @patient
     if @patient.update(patient_params)
-      redirect_to patient_path(@patient), notice: 'Patient was successfully updated.'
+      redirect_to patient_path(@patient), notice: "Mise à jour du patient effectué"
     else
       render :edit, status: :unprocessable_entity
     end

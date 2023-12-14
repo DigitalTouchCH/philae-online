@@ -44,3 +44,75 @@
   height: 1000px;  /* Ajustez cette valeur selon vos besoins */
   position: relative; /* pour positionner correctement les blocs de temps par rapport à ce conteneur */
 }
+
+
+.card {
+  padding: 2em;
+  box-shadow: 0 0 1em rgba(0,0,0,0.1);
+  border-radius: 20px;
+  background-color: white
+}
+
+
+.form-group {
+  margin: 0; /* Supprimez les marges par défaut si nécessaire */
+  padding: 0.1rem;
+
+}
+
+.form-control {
+  background-color: white;
+  border: none;
+  padding: 0rem;
+  flex-grow: 1;
+}
+
+.form-control:focus {
+  background-color: white;
+  border: none;
+  box-shadow: none;
+}
+
+.form-editable {
+  background-color: #effbff; /* Exemple de couleur bleue */
+}
+
+.form-control:focus {
+  background-color: #e4f8ff;
+  border: rgb(84, 100, 109);
+  box-shadow: 0 0 1em rgba(0,0,0,0.1);
+}
+
+.form-header {
+  display: flex;
+  align-items: center; /* Ensure vertical alignment */
+  justify-content: center; /* Center the title */
+}
+
+.form-header h3 {
+  margin: 0; /* Remove default margin */
+  margin-bottom: 1rem; /* Add space between the header and the form */
+}
+
+.edit-icon,
+.save-icon {
+  font-size: 1rem; /* Increase the size of icons */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  margin-left: 10px; /* Space between icons */
+}
+
+
+.flex-group {
+  display: flex;
+  flex-direction: row; /* Label à gauche, champ à droite */
+
+}
+
+.flex-group label {
+  margin-right: 10px; /* Ajoutez de l'espace entre le label et le champ */
+  white-space: nowrap; /* Empêche le retour à la ligne du label */
+}
+
+.d-none {
+  display: none;
+}

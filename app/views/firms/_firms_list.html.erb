@@ -3,34 +3,49 @@
 <% firms.each do |firm| %>
   <div class="card mb-4" data-controller="edit-form">
     <div class="card-body">
-      <%= form_with(model: firm, local: true, data: { action: "submit->edit-form#save" }) do |f| %>
-        <div class="justify-content-between align-items-center mb-3">
-          <div class="form-group">
-            <%= f.label :name, 'Nom' %>
-            <%= f.text_field :name,
-                            readonly: true,
-                            class: "form-control",
-                            data: { edit_form_target: "input" } %>
-          </div>
-          <div class="form-group">
-            <%= f.label :address, 'Adresse' %>
-            <%= f.text_area :address,
-                            readonly: true,
-                            class: "form-control",
-                            rows: 3,
-                            data: { edit_form_target: "textArea" } %>
-          </div>
-          <div class="form-group">
-            <%= f.label :therapist_ids, 'Therapeutes associés' %>
-            <%= f.collection_select :therapist_ids,
-                                    Therapist.all,
-                                    :id,
-                                    :display_name,
-                                    {},
-                                    { multiple: true, class: "form-select", data: { edit_form_target: "select" }, disabled: true } %>
-          </div>
+      <%= form_with(model: firm, local: true) do |f| %>
+
+        <div class="form-header">
+          <h3><%=firm.name%></h3>
           <div>
-            <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %>
+            <i class="fas fa-edit edit-icon" data-action="click->edit-form#edit"></i>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group flex-group">
+              <%= f.label :name, 'Nom : ' %>
+              <%= f.text_field :name,
+                              readonly: true,
+                              class: "form-control",
+                              data: { edit_form_target: "input" } %>
+            </div>
+            <div class="form-group flex-group">
+              <%= f.label :address, 'Adresse : ' %>
+              <%= f.text_area :address,
+                              readonly: true,
+                              class: "form-control",
+                              rows: 2,
+                              data: { edit_form_target: "textArea" } %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :therapist_ids, 'Therapeutes associés' %>
+              <%= f.collection_select :therapist_ids,
+                                      Therapist.all,
+                                      :id,
+                                      :display_name,
+                                      {},
+                                      { multiple: true, class: "form-select", data: { edit_form_target: "select" }, disabled: true } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <!-- <%= button_tag 'Edit', type: 'button', class: "editButton btn btn-outline-primary", data: { action: "click->edit-form#edit" } %> -->
             <%= f.submit "Save", class: "saveButton btn btn-outline-success d-none", data: { action: "click->edit-form#save" } %>
           </div>
         </div>
