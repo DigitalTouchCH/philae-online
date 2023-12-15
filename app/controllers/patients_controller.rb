@@ -21,6 +21,7 @@ class PatientsController < ApplicationController
   def show
     @patient = Patient.includes(:users).find(params[:id])
     @users = @patient.users  # Assurez-vous que les utilisateurs associés sont chargés
+    @ordonnances = @patient.ordonnances
     authorize @patient
   end
 
