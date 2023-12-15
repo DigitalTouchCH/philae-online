@@ -1,0 +1,27 @@
+<%# app/views/ordonnances/new.html.erb %>
+
+<%= form_with(model: @ordonnance, local: true) do |form| %>
+
+  <%= form.label :title, 'Titre:' %>
+  <%= form.text_field :title %>
+
+  <%= form.label :date_prescription, 'Date de prescription:' %>
+  <%= form.date_field :date_prescription %>
+
+  <%= form.label :num_of_session, 'Nombre de séances:' %>
+  <%= form.number_field :num_of_session %>
+
+  <%= form.label :diagnostic, 'Diagnostic:' %>
+  <%= form.text_field :diagnostic %>
+
+  <%= form.label :type_of_ordonnance, 'Type:' %>
+  <%= form.select :type_of_ordonnance, ['Maladie', 'Accident', 'LaMal'], {}, { include_blank: 'Sélectionnez' } %>
+
+  <%= form.label :is_domicile, 'à domicile ? :' %>
+  <%= form.check_box :is_domicile %>
+
+  <%= form.hidden_field :patient_id, value: params[:patient_id] %>
+
+  <%= form.submit 'Créer Ordonnance' %>
+
+<% end %>

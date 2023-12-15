@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def calculer_age(date_naissance)
+    return unless date_naissance
+    ((Time.zone.now - date_naissance.to_time) / 1.year.seconds).floor
+  end
 
   TOTAL_HOURS = 18.0
 

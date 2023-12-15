@@ -1,0 +1,78 @@
+<%# app/views/patients/ordonnance_form.html.erb %>
+
+<div class="card mb-4" data-controller="edit-form">
+  <%= form_with(model: ordonnance, local: true) do |f| %>
+
+    <div class="form-header">
+      <h3>Prescription - <%= ordonnance.date_prescription.strftime("%B %Y") %></h3>
+      <div>
+        <i class="fas fa-edit edit-icon" data-action="click->edit-form#edit"></i>
+        <i class="fas fa-save save-icon d-none" data-action="click->edit-form#save"></i>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.label :title, 'Titre : ' %>
+        <%= f.text_field :title, class: 'form-control', readonly: true %>
+
+        <%= f.label :date_prescription, 'Date de prescription : ' %>
+        <%= f.date_field :date_prescription, class: 'form-control', readonly: true %>
+
+        <%= f.label :num_of_session, 'Nombre de séances : ' %>
+        <%= f.number_field :num_of_session, class: 'form-control', readonly: true %>
+
+        <%= f.label :is_domicile, 'domicile ? :' %>
+        <%= f.check_box :is_domicile, disabled: true, data: { edit_form_target: "checkbox" } %>
+
+        <%= f.label :prescripteur_id, 'Prescripteur : ' %>
+        <%= f.collection_select :prescripteur_id, Prescripteur.all, :id, :name, {}, {class: 'form-control', disabled: true} %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :physiotherapy_objectiv, 'Objectifs : ' %>
+        <%= f.text_area :physiotherapy_objectiv, class: 'form-control', readonly: true, rows: 4, placeholder: 'Analgésie/anti-inflammatoire, Amél. fonction arliculaire /musculaire /cardio-pulmonaire /circulatoire,  Proprioception/coordination' %>
+
+        <%= f.label :diagnostic, 'Diagnostic : ' %>
+        <%= f.text_area :diagnostic, class: 'form-control', readonly: true, rows: 3 %>
+
+        <%= f.label :type_of_ordonnance, 'Type d\'ordonnance : ' %>
+        <%= f.select :type_of_ordonnance, ['Maladie', 'Accident', 'LaMal'], {}, { include_blank: 'Sélectionnez', class: 'form-control', disabled: true } %>
+
+        <%= f.label :treatment_plan, 'Plan de traitement : ' %>
+        <%= f.text_area :treatment_plan, class: 'form-control', readonly: true, rows: 3 %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :progress_notes, "Notes d'évolution : " %>
+        <%= f.text_area :progress_notes, class: 'form-control', readonly: true, rows: 3 %>
+
+        <%= f.label :commentaire, 'Commentaire : ' %>
+        <%= f.text_area :commentaire, class: 'form-control', readonly: true, rows: 3 %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <h4>Événements individuel associés à l'ordonnance</h4>
+        <ul>
+          <% ordonnance.event_individuels.each do |event| %>
+            <li>
+              <%= event.status %> -
+              <%= event.start_date_time.strftime("%d/%m/%Y %H:%M") %> à
+              <%= event.end_date_time.strftime("%d/%m/%Y %H:%M") %>
+              <%# Ajoutez d'autres détails d'événement si nécessaire %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-right">
+        <%= f.submit "Enregistrer", class: "saveButton btn btn-dark d-none" %>
+      </div>
+    </div>
+
+  <% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_08_165727) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_131743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,6 +89,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_08_165727) do
     t.text "physiotherapy_objectiv"
     t.text "treatment_plan"
     t.text "progress_notes"
+    t.string "diagnostic"
+    t.string "type_of_ordonnance"
+    t.boolean "is_domicile", default: false
     t.index ["patient_id"], name: "index_ordonnances_on_patient_id"
     t.index ["prescripteur_id"], name: "index_ordonnances_on_prescripteur_id"
   end

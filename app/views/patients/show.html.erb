@@ -1,7 +1,35 @@
 <!-- app/views/patients/show.html.erb -->
 
 <div class="container">
-  <h1><%= @patient.display_name %></h1>
+  <h1><%= @patient.display_name %> - <%= calculer_age(@patient.date_of_birth) %> ans </h1>
+
+  <!-- Card for unattached individual and group events -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>Événements non attachés à une ordonnance</h3>
+    </div>
+    <div class="card-body">
+      <h5>Événements Individuels</h5>
+      <ul>
+        <% @patient.event_individuels.each do |event| %>
+          <li>
+            <%= event.start_date_time.strftime("%d %B %Y à %H:%M") %> -
+            <% duration = ((event.end_date_time - event.start_date_time) / 60).to_i %>
+            <%= duration %> min -
+            <%= event.status %> -
+            <% if event.ordonnance %>
+              <%= event.ordonnance.title %>
+            <% else %>
+              Pas d'ordonnance liée
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+
+      <h5>Événements de Groupe</h5>
+      <ul>A coder</ul>
+    </div>
+  </div>
 
   <!-- Informations sur les utilisateurs associés -->
   <% if @patient.users.any? %>
@@ -29,9 +57,13 @@
 <% else %>
   <p>Aucun utilisateur trouvé.</p>
 <% end %>
-
-
-
-
   <%= render 'patient_form', patient: @patient %>
+
+<%= link_to 'Ajouter prescription', new_ordonnance_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+
+<% @ordonnances.each do |ordonnance| %>
+  <%= render 'patients/ordonnance_form', ordonnance: ordonnance %>
+<% end %>
+
+
 </div>
