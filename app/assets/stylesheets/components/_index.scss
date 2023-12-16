@@ -116,3 +116,45 @@
 .d-none {
   display: none;
 }
+
+
+.status-pending {
+  background-color: #ff6b35;
+}
+
+.status-confirmed {
+  background-color: #023e7d;
+}
+
+.status-done {
+  background-color: #157c54;
+}
+
+.status-non-excused {
+  font-style: italic;
+  background-color: #9B9B9B;
+}
+
+.status-excused {
+  background-color: #000000;
+}
+
+/* Nouveau style pour le dropdown */
+.badge-status-dropdown {
+border: none;
+background-color: transparent;
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+padding: 0;
+margin: 0;
+font-size: small;
+font-weight: bolder;
+text-align: center;
+color: white;
+--bs-form-select-bg-img: none;
+}
+
+.badge-status-dropdown option {
+color: #000000 !important;
+}

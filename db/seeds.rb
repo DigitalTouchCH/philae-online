@@ -4,6 +4,7 @@ require 'faker'
 
 puts "Purging database..."
 
+# Supprimer les enregistrements qui n'ont pas de dépendances
 VideoPatient.destroy_all
 EventPersonel.destroy_all
 EventIndividuel.destroy_all
@@ -11,17 +12,26 @@ EventGroupe.destroy_all
 PatientEventGroupe.destroy_all
 Ordonnance.destroy_all
 TherapistService.destroy_all
-Service.destroy_all
 Video.destroy_all
 WeekAvailability.destroy_all
 Room.destroy_all
 Location.destroy_all
-Therapist.destroy_all
-Patient.destroy_all
+
+# Supprimer les utilisateurs avant les thérapeutes
 User.destroy_all
+Therapist.destroy_all
+
+# Supprimer les patients
+Patient.destroy_all
+
+# Supprimer les autres enregistrements
 Firm.destroy_all
+Service.destroy_all
 
 puts "Database purged."
+
+
+
 
 # ADMIN
 
@@ -31,13 +41,17 @@ user1 = User.create!(
   email: 'thomas.murat974@gmail.com',
   password: 'Lise974*-+',
   password_confirmation: 'Lise974*-+',
-  is_admin: true
+  is_admin: true,
+  first_name: 'Thomas',
+  last_name: 'Murat'
 )
 user2 = User.create!(
   email: 'duclos.solen@gmail.com',
   password: 'Lise974*-+',
   password_confirmation: 'Lise974*-+',
-  is_admin: true
+  is_admin: true,
+  first_name: 'Solen',
+  last_name: 'Duclos'
 )
 
 puts "Admin users created."
@@ -61,52 +75,66 @@ puts "Creating therapists..."
 user3 = User.create!(
   email: 'solen@centre-philae.ch',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  first_name: 'Solen',
+  last_name: 'Duclos'
 )
 therapist3 = Therapist.create!(
-  user: user3,
   first_name: 'Solen',
   last_name: 'Duclos',
   is_manager: true,
-  firm: solen_duclos_ri
+  firm: solen_duclos_ri,
+  is_active: true
 )
 user4 = User.create!(
   email: 'amelie@centre-philae.ch',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  first_name: 'Amelie',
+  last_name: 'Teil'
 )
 therapist4 = Therapist.create!(
-  user: user4,
   first_name: 'Amelie',
   last_name: 'Teil',
   is_manager: false,
-  firm: solen_duclos_ri
+  firm: solen_duclos_ri,
+  is_active: true
 )
 user5 = User.create!(
   email: 'alexandre@centre-philae.ch',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  first_name: 'Alexandre',
+  last_name: 'Dessert'
 )
 therapist5 = Therapist.create!(
-  user: user5,
   first_name: 'Alexandre',
   last_name: 'Dessert',
   is_manager: false,
-  firm: solen_duclos_ri
+  firm: solen_duclos_ri,
+  is_active: true
 )
 
 user6 = User.create!(
   email: 'anne-laure@centre-philae.ch',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  first_name: 'Anne-Laure',
+  last_name: 'Croquet'
 )
 therapist6 = Therapist.create!(
-  user: user6,
   first_name: 'Anne-Laure',
   last_name: 'Croquet',
   is_manager: true,
-  firm: anne_laure_croquet_ri
+  firm: anne_laure_croquet_ri,
+  is_active: true
 )
+
+user3.update(therapist: therapist3)
+user4.update(therapist: therapist4)
+user5.update(therapist: therapist5)
+user6.update(therapist: therapist6)
+
 puts "Therapists created."
 
 
@@ -145,9 +173,6 @@ puts "Creating personal events for therapists..."
 therapists = Therapist.all
 start_time = Time.now.beginning_of_day + 11.hours # Start at 11:00 tomorrow
 end_time = Time.now.beginning_of_day + 13.hours   # End at 13:00 tomorrow
-
-puts "Start time: #{start_time}"
-puts "End time: #{end_time}"
 
 therapists.each do |therapist|
   5.times do |i| # Creating 5 events for each therapist
@@ -302,20 +327,84 @@ ordonnance_titles = [
   "Stress et anxiété"
 ]
 
+# Liste des objectifs de physiothérapie
+physiotherapy_objectives = [
+  "Améliorer l'amplitude de mouvement et la flexibilité des articulations touchées.",
+  "Renforcer les muscles supportant les articulations affectées pour réduire la douleur.",
+  "Restaurer la fonctionnalité et l'indépendance dans les activités quotidiennes.",
+  "Améliorer l'équilibre et la coordination pour prévenir les chutes.",
+  "Accroître l'endurance cardiovasculaire pour une meilleure santé globale.",
+  "Réduire l'inflammation et la douleur grâce à des techniques manuelles et de la cryothérapie.",
+  "Favoriser la guérison des tissus mous après une blessure ou une chirurgie.",
+  "Intégrer des exercices de respiration pour améliorer la fonction pulmonaire.",
+  "Éduquer le patient sur les postures correctes pour minimiser la douleur au dos.",
+  "Développer un programme personnalisé d'étirement et de renforcement pour prévenir les récidives.",
+]
+
+# Liste des plans de traitement
+treatment_plans = [
+  "Séances de kinésithérapie combinées à des exercices à domicile.",
+  "Thérapie manuelle, y compris mobilisation articulaire et massage des tissus mous.",
+  "Programme progressif de renforcement musculaire et d'entraînement à la stabilité.",
+  "Utilisation de techniques de physiothérapie telles que l'ultrason et la stimulation électrique.",
+  "Exercices d'aquathérapie pour une rééducation en douceur.",
+  "Sessions de rééducation vestibulaire pour les problèmes d'équilibre.",
+  "Thérapie par le mouvement pour améliorer la coordination et la fluidité des gestes.",
+  "Entraînement proprioceptif pour renforcer les réflexes et la perception corporelle.",
+  "Programme de réadaptation cardiorespiratoire pour améliorer l'endurance.",
+  "Intégration de techniques de relaxation et de gestion de la douleur.",
+]
+
+# Liste des notes de progression
+progress_notes = [
+  "Le patient montre une amélioration significative de la mobilité articulaire.",
+  "Réduction notable de la douleur suite aux sessions de thérapie manuelle.",
+  "Le patient a atteint ses objectifs de renforcement musculaire initial.",
+  "Amélioration constante de l'équilibre et de la coordination.",
+  "Le patient rapporte une diminution de la douleur lors des activités quotidiennes.",
+  "Progrès dans la capacité à effectuer des exercices d'étirement autonomes.",
+  "Augmentation de l'endurance lors des séances d'exercice.",
+  "Meilleure gestion de la douleur chronique grâce aux techniques enseignées.",
+  "Le patient démontre une meilleure posture au travail et à la maison.",
+  "Progression positive vers les objectifs de réadaptation après chirurgie.",
+]
+
+# Liste des diagnostics
+diagnostics = [
+  "Tendinite de la coiffe des rotateurs.",
+  "Lombalgie due à une hernie discale.",
+  "Syndrome du canal carpien.",
+  "Arthrose du genou.",
+  "Capsulite rétractile de l'épaule.",
+  "Entorse de la cheville de grade II.",
+  "Douleur cervicale post-traumatique.",
+  "Fibromyalgie avec douleurs musculo-squelettiques généralisées.",
+  "Bursite trochantérienne de la hanche.",
+  "Sciatalgie secondaire à une compression nerveuse lombaire.",
+]
+
+# Liste des types d'ordonnance
+types_of_ordonnance = ["Maladie", "Accident", "LaMal"]
+
 # Assigner 0 à 3 ordonnances pour chaque patient
 Patient.find_each do |patient|
-  # Générer un nombre aléatoire d'ordonnances, avec un poids pour 0 ordonnance
   num_of_ordonnances = [0, 1, 1, 2, 2, 3].sample
   next if num_of_ordonnances == 0
 
   num_of_ordonnances.times do
     Ordonnance.create!(
       date_prescription: Faker::Date.between(from: 1.year.ago, to: Date.today),
-      num_of_session: rand(1..10), # ou toute autre logique appropriée pour num_of_session
+      num_of_session: rand(1..10),
       title: ordonnance_titles.sample,
       commentaire: ordonnance_comments.sample,
       prescripteur: Prescripteur.order('RANDOM()').first,
-      patient: patient
+      patient: patient,
+      physiotherapy_objectiv: physiotherapy_objectives.sample,
+      treatment_plan: treatment_plans.sample,
+      progress_notes: progress_notes.sample,
+      diagnostic: diagnostics.sample,
+      type_of_ordonnance: types_of_ordonnance.sample,
+      is_domicile: [true, false].sample # Aléatoirement choisi
     )
   end
 end
@@ -331,8 +420,7 @@ puts "Creating individual events..."
 therapists = Therapist.all
 patients = Patient.all
 services = Service.where(is_group: false) # Fetch only individual services
-ordonnances = Ordonnance.all # Assuming Ordonnance records are present
-statuses = ["non confirmée", "confirmé", "réalisé", "annulé", "non excusé"] # Possible status values
+statuses = ['à confirmer', 'confirmé', 'réalisé', 'non excusé', 'excusé'] # Possible status values
 
 # Set the period for when the events will take place
 starting_date = 7.days.ago.beginning_of_day # 7 days before today
@@ -349,29 +437,35 @@ therapists.each do |therapist|
     event_times.sample(10).each do |time|
       # Parse the date and time to create a valid DateTime object
       start_time = DateTime.parse("#{date} #{time}")
-      end_time = start_time + services.sample.duration_per_unit.minutes # Use a sample service duration
-
-      # Randomly assign a patient, a service, and an ordonnance for the sake of the example
-      patient = patients.sample
       service = services.sample
-      ordonnance = ordonnances.sample # Randomly select an ordonnance
-      status = statuses.sample # Randomly select a status
+      end_time = start_time + service.duration_per_unit.minutes
 
-      EventIndividuel.create!(
-        therapist: therapist,
-        patient: patient,
-        ordonnance: ordonnance,
-        service: service,
-        start_date_time: start_time,  # Changed from start_date_time to start_time
-        end_date_time: end_time,      # Changed from end_date_time to end_time
-        status: status
-        # ... any other attributes you need to set
-      )
+      # Randomly assign a patient who has an ordonnance
+      patient = patients.select { |p| p.ordonnances.any? }.sample
+
+      # Select one of the patient's ordonnances if available
+      ordonnance = patient.ordonnances.sample if patient
+      status = statuses.sample
+
+      # Create event only if a patient with ordonnance is selected
+      if patient && ordonnance
+        EventIndividuel.create!(
+          therapist: therapist,
+          patient: patient,
+          ordonnance: ordonnance,
+          service: service,
+          start_date_time: start_time,
+          end_date_time: end_time,
+          status: status
+          # ... any other attributes you need to set
+        )
+      end
     end
   end
 end
 
 puts "Individual events created."
+
 
 
 

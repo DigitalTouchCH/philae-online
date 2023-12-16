@@ -8,7 +8,10 @@
 <% if @patients.any? %>
   <ul>
     <% @patients.each do |patient| %>
-      <li><%= link_to "#{patient.first_name} #{patient.last_name} (#{patient.date_of_birth})", patient_path(patient) %></li>
+      <li>
+        <%= link_to "#{patient.first_name} #{patient.last_name} (#{patient.date_of_birth})", patient_path(patient) %>
+        <%= patient.ordonnances.count %> ordonnance(s) liée(s)
+      </li>
     <% end %>
   </ul>
 <% else %>

@@ -7,5 +7,12 @@ class EventIndividuel < ApplicationRecord
   validates :therapist_id, presence: true
   validates :patient_id, presence: true
   validates :service_id, presence: true
-  validates :status, presence: true, inclusion: { in: ["non confirmée", "confirmé", "réalisé", "annulé", "non excusé" ] }
+  validates :status, presence: true, inclusion: { in: ['à confirmer', 'confirmé', 'réalisé', 'non excusé', 'excusé'] }
+
+  STATUSES = ['à confirmer', 'confirmé', 'réalisé', 'non excusé', 'excusé'].freeze
+
+  def self.statuses
+    STATUSES
+  end
+
 end

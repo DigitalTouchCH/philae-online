@@ -18,4 +18,35 @@ module ApplicationHelper
     (start_hours_from_5_am / TOTAL_HOURS) * 100
   end
 
+
+  def status_update_form_for_event_individuel(event)
+    form_with url: update_status_event_individuel_path(event), method: :patch, local: true do |f|
+      concat(
+        content_tag(:span, class: "badge rounded-pill #{status_class(event.status)}") do
+          f.select :status, EventIndividuel.statuses.map { |status| [status, status] }, { selected: event.status }, name: 'event_individuel[status]', class: "form-select badge-status-dropdown", onchange: 'this.form.submit()'
+        end
+      )
+      concat f.submit 'Update', style: 'display: none;'
+    end
+  end
+
+
+  def status_class(status)
+    # Retourne une classe CSS en fonction du statut
+    case status
+    when "à confirmer"
+      "status-pending"
+    when "confirmé"
+      "status-confirmed"
+    when "réalisé"
+      "status-done"
+    when "non excusé"
+      "status-non-excused"
+    when "excusé"
+      "status-excused"
+    else
+      "status-pending"
+    end
+  end
+
 end
