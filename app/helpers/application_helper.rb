@@ -23,13 +23,16 @@ module ApplicationHelper
     form_with url: update_status_event_individuel_path(event), method: :patch, local: true do |f|
       concat(
         content_tag(:span, class: "badge rounded-pill #{status_class(event.status)}") do
-          f.select :status, EventIndividuel.statuses.map { |status| [status, status] }, { selected: event.status }, name: 'event_individuel[status]', class: "form-select badge-status-dropdown", onchange: 'this.form.submit()'
+          f.select :status, EventIndividuel.statuses.map { |status| [status, status] },
+          { selected: event.status },
+          name: 'event_individuel[status]',
+          class: "form-select badge-status-dropdown",
+          onchange: 'this.form.submit()'
         end
       )
       concat f.submit 'Update', style: 'display: none;'
     end
   end
-
 
   def status_class(status)
     # Retourne une classe CSS en fonction du statut
@@ -48,5 +51,22 @@ module ApplicationHelper
       "status-pending"
     end
   end
+
+  def ordonnance_association_form_for_event_individuel(event, ordonnances)
+    form_with url: associate_ordonnance_event_individuel_path(event), method: :patch, local: true do |f|
+      concat(
+        content_tag(:span, class: "badge rounded-pill #{ordonnance_badge_class(event.ordonnance_id)}") do
+          f.select :ordonnance_id, options_from_collection_for_select(ordonnances, :id, :title, event.ordonnance_id), {}, { class: "form-select badge-status-dropdown", onchange: 'this.form.submit()' }
+        end
+      )
+      concat f.submit 'Associate', style: 'display: none;'
+    end
+  end
+
+  def ordonnance_badge_class(ordonnance_id)
+    ordonnance_id.nil? ? 'status-non-excused' : 'status-excused'
+  end
+
+
 
 end

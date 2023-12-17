@@ -20,7 +20,10 @@
             <%= status_update_form_for_event_individuel(event) %>
           </span>
           - <% if event.ordonnance %>
+          <span class="badge rounded-pill badge-status-dropdown">
             <%= event.ordonnance.title %>
+            <%= ordonnance_association_form_for_event_individuel(event, @patient.ordonnances) %>
+          </span>
           <% else %>
             Pas d'ordonnance liée
           <% end %>
