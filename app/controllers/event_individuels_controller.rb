@@ -12,6 +12,7 @@ class EventIndividuelsController < ApplicationController
   end
 
   def associate_ordonnance
+    authorize @event_individuel, :associate_ordonnance?
     if @event_individuel.update(ordonnance_params)
       redirect_to patient_path(@event_individuel.patient), notice: 'Ordonnance associée avec succès.'
     else
@@ -26,7 +27,7 @@ class EventIndividuelsController < ApplicationController
   end
 
   def ordonnance_params
-    params.require(:event_individuel).permit(:ordonnance_id)
+    params.permit(:ordonnance_id)
   end
 
   def set_event_individuel
