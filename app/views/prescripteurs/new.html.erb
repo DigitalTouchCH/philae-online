@@ -1,0 +1,16 @@
+<%# app/views/prescripteurs/new.html.erb %>
+
+<div class="container">
+
+  <h1 style="margin-top: 120px;">Nouveau Prescripteur</h1>
+
+  <%= form_with(model: @prescripteur, local: true) do |f| %>
+    <div class="form-group">
+      <%= f.label :name, 'Nom : ' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+
+    <%= f.submit "Créer Prescripteur", class: "btn btn-primary" %>
+  <% end %>
+
+</div>

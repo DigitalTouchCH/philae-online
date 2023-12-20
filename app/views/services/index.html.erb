@@ -1,6 +1,6 @@
 <!-- app/views/services/index.html.erb -->
-<div class="container mt-5" data-controller="edit-form">
-  <h1 class="mb-4">Liste des Services</h1>
+<div class="container" data-controller="edit-form">
+  <h1 style="padding-top: 120px;">Liste des Services</h1>
   <%= link_to 'Nouveau Service', new_service_path, class: "btn btn-primary mb-3" %>
 
   <%= render partial: 'services_list', locals: { services: @services } %>

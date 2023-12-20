@@ -3,6 +3,7 @@
 // Import Google fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
 
 
@@ -10,6 +11,7 @@
 $body-font: "Work Sans", "Helvetica", "sans-serif";
 $headers-font: "Permanent Marker", cursive;
 $form-labels-font: "Permanent Marker", cursive;
+$navbar-font: "Montserrat", "Helvetica", "sans-serif";
 
 
 
@@ -43,4 +45,8 @@ body {
   font-size: 0.9em; // Ajustez la taille de la police si nécessaire
   color: #f8f9faa2;
   font-style: italic;
+}
+
+.navbar {
+  font-family: $navbar-font;
 }

@@ -1,19 +1,23 @@
-<h1>Patients</h1>
+<div class="container">
 
-<%= form_with(url: patients_path, method: :get, local: true) do |f| %>
-  <%= f.text_field :search, placeholder: "Rechercher un patient..." %>
-  <%= f.submit "Rechercher" %>
-<% end %>
+  <h1 style="padding-top: 120px;">Patients</h1>
 
-<% if @patients.any? %>
-  <ul>
-    <% @patients.each do |patient| %>
-      <li>
-        <%= link_to "#{patient.first_name} #{patient.last_name} (#{patient.date_of_birth})", patient_path(patient) %>
-        <%= patient.ordonnances.count %> ordonnance(s) liée(s)
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No patients available.</p>
-<% end %>
+  <%= form_with(url: patients_path, method: :get, local: true) do |f| %>
+    <%= f.text_field :search, placeholder: "Rechercher un patient..." %>
+    <%= f.submit "Rechercher" %>
+  <% end %>
+
+  <% if @patients.any? %>
+    <ul>
+      <% @patients.each do |patient| %>
+        <li>
+          <%= link_to "#{patient.first_name} #{patient.last_name} (#{calculer_age(patient.date_of_birth)} ans)", patient_path(patient) %>
+          <%= patient.ordonnances.count %> ordonnance(s) liée(s)
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No patients available.</p>
+  <% end %>
+
+</div>
