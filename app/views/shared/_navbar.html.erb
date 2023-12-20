@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
+  <div class="container">
     <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
+      <%= image_tag "Logo-50x50.jpg" %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,38 +10,56 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
+
           <li class="nav-item active">
             <%= link_to "Acceuil", "/", class: "nav-link" %>
           </li>
-          <% if current_user.is_admin? %>
-            <li class="nav-item">
-              <%= link_to "(Utilisateurs)", users_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "(Sociétés)", firms_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "(Thérapeutes)", therapists_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Patients", patients_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Services", services_path, class: "nav-link" %>
-            </li>
-          <% elsif Therapist.exists?(user_id: current_user.id) %>
-            <li class="nav-item">
-              <%= link_to "Patients", patients_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Services", services_path, class: "nav-link" %>
+
+        <% if user_signed_in? %> <!-- Si l'utilisateur est connecté -->
+
+          <% if current_user.is_admin? %> <!-- Si l'utilisateur est admin -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Admin
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                <%= link_to "Utilisateurs", users_path, class: "dropdown-item" %>
+                <%= link_to "Sociétés", firms_path, class: "dropdown-item" %>
+                <%= link_to "Thérapeutes", therapists_path, class: "dropdown-item" %>
+                <%= link_to "Services", services_path, class: "dropdown-item" %>
+                <!-- Ajoutez d'autres liens admin si nécessaire -->
+              </div>
             </li>
           <% end %>
+
+          <% if user_signed_in? && (current_user.is_admin? || current_user.therapist?) %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTherapists" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Thérapeutes
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownTherapists">
+                <% Therapist.all.each do |therapist| %>
+                  <%= link_to therapist.first_name, therapist_path(therapist), class: "dropdown-item" %>
+                <% end %>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <%= link_to "Patients", patients_path, class: "nav-link" %>
+            </li>
+
+            <li class="nav-item">
+              <%= link_to "Prescripteurs", prescripteurs_path, class: "nav-link" %>
+            </li>
+          <% end %>
+
+
           <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
+
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <!-- <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %> -->
+            </a>
+
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Action", "#", class: "dropdown-item" %>
               <%= link_to "Another action", "#", class: "dropdown-item" %>
@@ -53,7 +71,9 @@
             <%= link_to "Login", new_user_session_path, class: "nav-link" %>
           </li>
         <% end %>
+
       </ul>
     </div>
+
   </div>
 </div>

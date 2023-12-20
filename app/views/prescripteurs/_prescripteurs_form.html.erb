@@ -1,0 +1,54 @@
+<%# app/views/prescripteurs/_prescripteurs_form.html.erb %>
+
+<div class="card mb-4" data-controller="edit-form">
+
+  <%= form_with(model: prescripteur, local: true, html: { class: "edit-form" }) do |f| %>
+
+
+    <div class="row">
+      <!-- Les champs du prescripteur -->
+      <div class="col-md-3">
+        <div class="form-group flex-group">
+          <%= f.label :name, 'Nom : ' %>
+          <%= f.text_field :name, class: 'form-control', readonly: true %>
+        </div>
+        <div class="form-group flex-group">
+          <%= f.label :tel, 'Téléphone : ' %>
+          <%= f.text_field :tel, class: 'form-control', readonly: true %>
+        </div>
+      </div>
+      <div class="col-md-8">
+          <div class="form-group flex-group">
+            <%= f.label :address, 'Adresse : ' %>
+            <%= f.text_field :address, class: 'form-control', readonly: true %>
+          </div>
+          <div class="form-group flex-group">
+            <%= f.label :mail, 'E-mail : ' %>
+            <%= f.email_field :mail, class: 'form-control', readonly: true %>
+          </div>
+          <div class="form-group">
+            <% prescripteur.ordonnances.group_by(&:patient).each do |patient, ordonnances| %>
+                <%= link_to "#{patient.first_name.capitalize} #{patient.last_name.upcase} (#{ordonnances.count})", patient_path(patient) %>
+            <% end %>
+          </div>
+      </div>
+
+
+      <div class="col-md-1">
+        <div class="form-header">
+          <div>
+            <i class="fas fa-edit edit-icon" data-action="click->edit-form#edit"></i>
+          </div>
+        </div>
+      </div>
+      <!-- Plus de champs selon les attributs de votre modèle Prescripteur -->
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <%= f.submit "Save", class: "saveButton btn btn-dark d-none" %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

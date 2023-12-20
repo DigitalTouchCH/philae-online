@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :ordonnances, only: [:new, :create, :edit, :update, :show]
 
+  resources :prescripteurs, only: [:index, :new, :create, :edit, :update]
+
   resources :users, only: [:index, :edit, :update]
 
   resources :therapists do

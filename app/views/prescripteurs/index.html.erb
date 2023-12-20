@@ -1,0 +1,24 @@
+<!-- app/views/prescripteurs/index.html.erb -->
+
+<div class="container">
+  <h1 style="margin-top: 120px;">Prescripteurs</h1>
+  <%= link_to 'Nouveau Prescripteur', new_prescripteur_path, class: "btn btn-primary" %>
+
+  <%= form_with(url: prescripteurs_path, method: :get, local: true) do |f| %>
+    <%= f.text_field :search, placeholder: "Rechercher un prescripteur..." %>
+    <%= f.submit "Rechercher" %>
+  <% end %>
+
+  <% if @prescripteurs.any? %>
+    <ul>
+      <% @prescripteurs.each do |prescripteur| %>
+        <%= render 'prescripteurs_form', prescripteur: prescripteur %>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Pas de prescripteurs disponibles.</p>
+  <% end %>
+</div>
+
+
+</div>
