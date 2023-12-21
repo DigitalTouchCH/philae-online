@@ -12,3 +12,6 @@ application.register("fullcalendar", fullcalendar_controller)
 
 import edit_form_controller from "./edit_form_controller"
 application.register("edit-form", edit_form_controller)
+
+import booking_controller from "./booking_controller"
+application.register("booking", booking_controller)

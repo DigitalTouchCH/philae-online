@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 style="margin-top: 120px">Réserver un événement</h1>
+
+  <%= form_with model: @event_individuel, local: true, data: { controller: "booking" } do |f| %>
+    <%= f.collection_select :therapist_id, @therapists, :id, :display_name,
+          { prompt: "Choisissez un thérapeute" },
+          { data: { action: "change->booking#loadServices", booking_target: "therapist" } } %>
+
+    <%= f.collection_select :service_id, [], :id, :name,
+          { prompt: "Choisissez un service" },
+          { data: { action: "change->booking#loadTimeSlots", booking_target: "service" } } %>
+
+    <!-- Ici vous aurez un élément où le calendrier sera chargé -->
+    <!-- Liste pour afficher les créneaux disponibles -->
+    <ul id="time-slots-list" data-booking-target="timeSlot"></ul>
+
+
+    <%= f.submit "Réserver", data: { action: "click->booking#submitBooking" } %>
+  <% end %>
+</div>

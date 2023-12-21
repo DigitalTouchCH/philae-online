@@ -1,10 +1,21 @@
 class TherapistsController < ApplicationController
-
-
   before_action :authenticate_user!
   before_action :set_therapist, only: [:show, :edit, :update, :destroy, :all_events, :update_event]
   after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
+
+  def services
+    therapist = Therapist.find_by(id: params[:id])
+
+    if therapist.present? && therapist.services.any?
+      services = therapist.services.select(:id, :name)
+      render json: { services: services }
+    else
+      render json: { error: "Aucun service trouvé pour ce thérapeute." }, status: :not_found
+    end
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Thérapeute non trouvé." }, status: :not_found
+  end
 
   def index
     @therapists = policy_scope(Therapist).includes(:firm).order(:last_name, :first_name)

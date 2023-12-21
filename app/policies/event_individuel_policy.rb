@@ -1,5 +1,13 @@
 class EventIndividuelPolicy < ApplicationPolicy
 
+  def new?
+    user.present?
+  end
+
+  def create?
+    new?
+  end
+
   def update_status?
     user&.is_admin? || user&.therapist?
   end

@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :edit, :update]
 
   resources :therapists do
+    resources :services, only: [:index], defaults: { format: :json } do
+      resources :time_slots, only: [:index], controller: 'time_slots'
+    end
     get 'all_events', on: :member, defaults: { format: :json }
     member do
       patch :update_event
@@ -27,6 +30,7 @@ Rails.application.routes.draw do
     resources :time_blocks
   end
 
+  resources :event_individuels, only: [:new, :create]
   resources :event_individuels do
     member do
       patch :update_status

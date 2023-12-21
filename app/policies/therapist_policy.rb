@@ -1,6 +1,10 @@
 # app/policies/therapist_policy.rb
 
 class TherapistPolicy < ApplicationPolicy
+
+  def services?
+  end
+
   def show?
     user.is_admin? || record == user.therapist
   end
