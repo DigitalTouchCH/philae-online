@@ -7,6 +7,7 @@ class EventIndividuelsController < ApplicationController
     @event_individuel = EventIndividuel.new
     @therapists = Therapist.all
     @services = [] # Initialize @services as an empty array
+
     authorize @event_individuel
   end
 

@@ -15,3 +15,6 @@ application.register("edit-form", edit_form_controller)
 
 import booking_controller from "./booking_controller"
 application.register("booking", booking_controller)
+
+import slots_calendar_controller from "./slots_calendar_controller"
+application.register("slots-calendar", slots_calendar_controller)

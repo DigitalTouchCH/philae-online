@@ -12,7 +12,16 @@
 
     <!-- Ici vous aurez un élément où le calendrier sera chargé -->
     <!-- Liste pour afficher les créneaux disponibles -->
-    <ul id="time-slots-list" data-booking-target="timeSlot"></ul>
+    <div data-controller="slots-calendar">
+      <!-- FullCalendar s'attachera à cet élément -->
+    </div>
+
+    <div >
+
+      <ul id="time-slots-list" data-booking-target="timeSlot"></ul>
+
+    </div>
+
 
 
     <%= f.submit "Réserver", data: { action: "click->booking#submitBooking" } %>
