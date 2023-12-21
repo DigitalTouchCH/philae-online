@@ -23,6 +23,10 @@ class ServicePolicy < ApplicationPolicy
     update?
   end
 
+  def services?
+    user.present?
+  end
+
   class Scope < Scope
     def resolve
       scope.all

@@ -1,0 +1,2 @@
+class TimeSlotPolicy < ApplicationPolicy
+end

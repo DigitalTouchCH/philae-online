@@ -5,8 +5,22 @@ class ServicesController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
-    @services = policy_scope(Service).order(:name)
+    if params[:therapist_id]
+      # Find the therapist using the provided ID
+      therapist = Therapist.find(params[:therapist_id])
+      # Scope services to the specific therapist using the join table
+      @services = policy_scope(therapist.services)
+    else
+      # Otherwise, retrieve all services scoped to the current policy
+      @services = policy_scope(Service).order(:name)
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @services }
+    end
   end
+
 
   def show
     authorize @service

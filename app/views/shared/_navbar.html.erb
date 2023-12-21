@@ -53,6 +53,12 @@
             </li>
           <% end %>
 
+          <% if user_signed_in? && (current_user.is_admin? || current_user.therapist? || current_user.patient?) %>
+            <li class="nav-item">
+              <%= link_to "Nouveaux rendez-vous", new_event_individuel_path, class: "nav-link" %>
+            </li>
+          <% end %>
+
 
           <li class="nav-item dropdown">
 

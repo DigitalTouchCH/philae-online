@@ -1,5 +1,24 @@
 class EventIndividuelsController < ApplicationController
   before_action :set_event_individuel, only: [:update_status, :associate_ordonnance]
+  before_action :set_therapists, only: [:new, :create, :edit, :update]
+
+
+  def new
+    @event_individuel = EventIndividuel.new
+    @therapists = Therapist.all
+    @services = [] # Initialize @services as an empty array
+    authorize @event_individuel
+  end
+
+  def create
+    @event_individuel = EventIndividuel.new(event_params)
+    authorize @event_individuel
+    if @event_individuel.save
+      redirect_to patient_path(@event_individuel.patient), notice: 'Rendez-vous créé avec succès.'
+    else
+      render :new
+    end
+  end
 
 
   def update_status
@@ -22,8 +41,12 @@ class EventIndividuelsController < ApplicationController
 
   private
 
+  def set_therapists
+    @therapists = Therapist.all # Or however you get your list of therapists
+  end
+
   def event_params
-    params.require(:event_individuel).permit(:status)
+    params.require(:event_individuel).permit(:status, :patient_id, :therapist_id, :start_time, :end_time, :ordonnance_id)
   end
 
   def ordonnance_params
