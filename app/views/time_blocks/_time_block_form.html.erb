@@ -1,0 +1,10 @@
+<%# app/views/time_blocks/_time_block_edit_form.html.erb %>
+
+<%= form_with(model: [week_availability, time_block], local: true, class: "time-block-form") do |form| %>
+  <%= form.time_field :start_time, class: 'form-control' %>
+  <%= form.time_field :end_time, class: 'form-control' %>
+
+  <%= form.collection_select :room_id, Room.all, :id, :name, {}, {class: 'form-control'} %>
+
+  <%= form.submit "Update", class: "btn btn-primary" %>
+<% end %>
