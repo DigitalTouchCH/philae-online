@@ -1,0 +1,76 @@
+<%# app/views/week_availabilities/_week_availability_form.html.erb %>
+
+<div class="card mb-4" data-controller="edit-form">
+
+  <%= form_with(model: week_availability, local: true, html: { class: "edit-form" }) do |f| %>
+    <div class="row">
+      <!-- Fields for WeekAvailability -->
+      <div class="col-md-2">
+        <h2><%= week_availability.therapist.first_name %> <%= week_availability.therapist.last_name.upcase %></h2>
+        <div class="form-group">
+          <%= f.label :valid_from, 'Valid From: ' %>
+          <%= f.date_field :valid_from, class: 'form-control', readonly: true %>
+        </div>
+        <div class="form-group">
+          <%= f.label :valid_until, 'Valid Until: ' %>
+          <%= f.date_field :valid_until, class: 'form-control', readonly: true %>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <!-- Table for Time Blocks -->
+        <div data-toggle-target="content">
+          <table class="table table-transparent" style="height: 500px;">
+            <thead>
+              <tr>
+                <% @days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"] %>
+                <% @days.each do |day| %>
+                  <th style="width: 14.28%;"><%= day %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <% @days.each do |day| %>
+                  <td>
+                    <% time_blocks_for_day = week_availability.time_blocks.where(week_day: day) %>
+                    <% time_blocks_for_day.each do |time_block| %>
+                      <div class="time-block-card" style="position: relative; height: <%= height_percentage(time_block.start_time, time_block.end_time) %>%; top: <%= top_position(time_block.start_time) %>%;">
+                        <%= form_with(model: [week_availability, time_block], local: true, html: { class: "time-block-edit-form" }) do |tb_form| %>
+                          <div>
+                            <%= tb_form.time_field :start_time, class: 'form-control' %>
+                            <%= tb_form.time_field :end_time, class: 'form-control' %>
+                            <%= tb_form.collection_select :room_id, Room.all, :id, :name, {}, {class: 'form-control'} %>
+                          </div>
+                          <div>
+                            <%= tb_form.submit "Update", class: "btn btn-primary" %>
+                            <%= link_to "Cancel", week_availabilities_path, class: "btn btn-secondary" %>
+                            <%= link_to week_availability_time_block_path(week_availability, time_block), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: 'btn btn-danger' do %>
+                              <i class="fas fa-trash-alt" title="Supprimer"></i>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-header">
+          <i class="fas fa-edit edit-icon" data-action="click->edit-form#edit"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <%= f.submit "Save", class: "saveButton btn btn-dark d-none" %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

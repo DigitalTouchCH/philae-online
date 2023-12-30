@@ -4,6 +4,8 @@ class WeekAvailabilitiesController < ApplicationController
 
   def index
     @week_availabilities = policy_scope(WeekAvailability)
+                              .joins(:therapist)
+                              .order('therapists.first_name ASC')
   end
 
   def new

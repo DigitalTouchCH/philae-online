@@ -6,7 +6,6 @@ class TimeSlotsController < ApplicationController
 
 
   def index
-
     all_week_availabilities = @therapist.week_availabilities
 
     time_slots = @therapist.available_time_slots(@service.id, @service.duration_per_unit,all_week_availabilities)
